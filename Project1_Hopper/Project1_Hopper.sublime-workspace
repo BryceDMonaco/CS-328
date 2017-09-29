@@ -11,7 +11,7 @@
 			"file": "Assets/Scripts/PlayerControl.cs",
 			"settings":
 			{
-				"buffer_size": 4145,
+				"buffer_size": 4149,
 				"encoding": "UTF-8 with BOM",
 				"line_ending": "Unix"
 			}
@@ -103,23 +103,57 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4145,
+						"buffer_size": 4149,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								2194,
+								2194
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Unity3D/UnityC#.tmLanguage"
+							"oops":
+							{
+								"1299,1306": "Variable could be moved to a nested scope",
+								"1317,1324": "Assignment is redundant",
+								"1333,1340": "Variable could be moved to a nested scope",
+								"1349,1356": "Assignment is redundant",
+								"1365,1370": "Assignment is redundant",
+								"1371,1380": "Convert to constant",
+								"1389,1394": "Assignment is redundant",
+								"1395,1408": "Convert to constant",
+								"1417,1422": "Assignment is redundant",
+								"1423,1434": "Convert to constant",
+								"1588,1595": "Assignment is redundant",
+								"2000,2004": "Redundant 'else' keyword",
+								"2060,2068": "Parameter can be declared with base type",
+								"2282,2289": "Use 'var' keyword",
+								"244,249": "Using directive is not used by code and can be removed safely.",
+								"2955,2963": "Parameter can be IComparable",
+								"2970,2975": "Parameter can be IComparable",
+								"3558,3562": "Redundant 'else' keyword",
+								"356,362": "Name should have prefix '_'. (Rule 'Fields').",
+								"392,398": "Name should have prefix '_'. (Rule 'Fields').",
+								"450,462": "Name should have prefix '_'. (Rule 'Fields').",
+								"482,491": "Name should have prefix '_'. (Rule 'Fields').",
+								"571,582": "Name should have prefix '_'. (Rule 'Fields').",
+								"609,623": "Name should have prefix '_'. (Rule 'Fields').",
+								"670,675": "Name should have prefix '_'. (Rule 'Fields').",
+								"678,683": "Initializing field by default value is redundant",
+								"698,707": "Name should have prefix '_'. (Rule 'Fields').",
+								"710,715": "Initializing field by default value is redundant",
+								"731,739": "Convert to constant",
+								"742,747": "Initializing field by default value is redundant"
+							},
+							"syntax": "Packages/Unity3D/UnityC#.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.x": 3.0,
+						"translation.y": 485.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -167,13 +201,17 @@
 	{
 		"height": 0.0
 	},
+	"output.variable_get":
+	{
+		"height": 27.0
+	},
 	"pinned_build_system": "",
 	"project": "Project1_Hopper.sublime-project",
 	"replace":
 	{
 		"height": 0.0
 	},
-	"save_all_on_build": true,
+	"save_all_on_build": false,
 	"select_file":
 	{
 		"height": 0.0,

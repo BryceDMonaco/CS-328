@@ -5,7 +5,7 @@
  *
  *	Description: Handles input/controls for each player
  *
- *	TODO: 	
+ *	TODO: 	Movement 'animation', attack, make ReturnToGrid() more predictable
  *
  *	BUGS:	Leaving a log onto water doesn't kill the player
  *
@@ -20,12 +20,17 @@ public class PlayerControl : MonoBehaviour
 	public int player = 1; //Assume P1
 	public int health = 3;
 
-	[Header("Movement Variables")]
+	[Header ("Movement Variables")]
 	public int moveDistance = 4;
 	public float moveSpeed = 2;
 
 	private Vector3 spawnPoint;
 
+	[Header ("Attack Variables")]
+	public int attackReach = 8;
+	public LineRenderer tongueRenderer;
+
+	[Header ("Status Variables")]
 	public bool onLog = false;
 	public bool overWater = false;
 	private bool isMoving = false;
@@ -34,6 +39,7 @@ public class PlayerControl : MonoBehaviour
 	private KeyCode downKey;
 	private KeyCode leftKey;
 	private KeyCode rightKey;
+	private KeyCode attackKey;
 
 	void Start () 
 	{
@@ -45,6 +51,7 @@ public class PlayerControl : MonoBehaviour
 			downKey = KeyCode.S;
 			leftKey = KeyCode.A;
 			rightKey = KeyCode.D;
+			attackKey = KeyCode.LeftShift;
 
 		} else
 		{
@@ -52,6 +59,7 @@ public class PlayerControl : MonoBehaviour
 			downKey = KeyCode.DownArrow;
 			leftKey = KeyCode.LeftArrow;
 			rightKey = KeyCode.RightArrow;
+			attackKey = KeyCode.RightShift;
 
 		}
 		
@@ -72,9 +80,6 @@ public class PlayerControl : MonoBehaviour
 			transform.position = toPos;
 
 		}
-
-
-
 
 		if (!onLog)
 		{
@@ -126,7 +131,8 @@ public class PlayerControl : MonoBehaviour
 	{
 		//Debug.Log ("New X is: " + (4 * ((int)transform.position.x / 4)).ToString());
 
-		Vector3 newGridPos = new Vector3 ((4 * ((int)transform.position.x / 4)), transform.position.y, transform.position.z);
+		//Vector3 newGridPos = new Vector3 ((4 * ((int) (transform.position.x / 4))), transform.position.y, transform.position.z);
+		Vector3 newGridPos = new Vector3 (GetRoundedValue(transform.position.x, moveDistance), transform.position.y, GetRoundedValue(transform.position.z, moveDistance));
 
 		transform.position = newGridPos;
 
@@ -183,6 +189,13 @@ public class PlayerControl : MonoBehaviour
 
 			break;
 
+		case 2:
+			onLog = state;
+
+			ReturnToGrid ();
+
+			break;
+
 		default:
 			Debug.Log ("Unrecognized special state requested: " + stateNum);
 
@@ -224,6 +237,27 @@ public class PlayerControl : MonoBehaviour
 		}
 
 		return Vector3.zero;
+
+	}
+
+	//Takes the sent value and finds the nearest multiple of target. Ex. if value = 13 and target = 4 then 12 is returned
+	int GetRoundedValue (float value, int target)
+	{
+		int halfway = (target / 2) - 1;
+
+		int tempValue = (int) value;
+
+		if (tempValue % target <= halfway)
+		{
+			tempValue -= (tempValue % target);
+
+		} else
+		{
+			tempValue += target - (tempValue % target);
+
+		}
+
+		return tempValue;
 
 	}
 }
