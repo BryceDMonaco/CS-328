@@ -26,6 +26,9 @@ public class PlayerControl : MonoBehaviour
 
 	private Vector3 spawnPoint;
 
+	private int xBounds = 16;			//To prevent the player from escaping the game area on the x axis
+	private int zBounds = 32;			//To prevent the player from escaping on the z axis
+
 	[Header ("Attack Variables")]
 	public int attackReach = 8;
 	public LineRenderer tongueRenderer;
@@ -107,17 +110,40 @@ public class PlayerControl : MonoBehaviour
 
 	bool DoDirectionCheck (Vector3 direction)
 	{
-		if (Physics.Raycast(transform.position, direction, 4f, 8))
+		bool inPlay;
+		bool isObstructed;
+
+		if (Physics.Raycast(transform.position, direction, 4f, 8)) //Should only be able to hit other players
 		{
 			Debug.Log ("Hit!");
 
-			return true;
+			isObstructed = true;
 
 		} else
 		{
-			return false;
+			isObstructed = false;
 
 		}
+
+		Vector3 newPos = transform.position + (moveDistance * direction);
+
+		Debug.Log ("Checking position for validity: " + newPos);
+
+		if ((newPos.x >= -xBounds && newPos.x <= xBounds) && (newPos.z >= -zBounds && newPos.z <= zBounds))
+		{
+			inPlay = true;
+
+		} else
+		{
+			inPlay = false;
+
+		}
+
+		Debug.Log ("Position is valid: " + inPlay);
+
+		return (isObstructed || !inPlay);
+
+			//FF F TF F FT F TT T
 
 	}
 		
@@ -148,7 +174,7 @@ public class PlayerControl : MonoBehaviour
 
 	}
 
-	void RespawnPlayer ()
+	public void RespawnPlayer ()
 	{
 		transform.position = spawnPoint;
 
@@ -158,6 +184,7 @@ public class PlayerControl : MonoBehaviour
 
 	}
 
+	//Deprecated
 	IEnumerator WaitForLogCheck ()
 	{
 		//yield return new WaitForEndOfFrame ();
@@ -259,6 +286,7 @@ public class PlayerControl : MonoBehaviour
 
 	}
 
+	//TODO: Can be obtimized by having CheckInputs() call this function
 	private Vector3 GetNewRotation ()
 	{
 		if (Input.GetKeyDown(leftKey) && !DoDirectionCheck(Vector3.forward))
