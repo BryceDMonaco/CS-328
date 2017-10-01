@@ -35,6 +35,10 @@ public class PlayerControl : MonoBehaviour
 	public bool overWater = false;
 	private bool isMoving = false;
 
+	[Header ("Art Variables")]
+	public MeshRenderer[] bodyParts;
+	public Transform bodyPartsPivot;
+
 	private KeyCode upKey;
 	private KeyCode downKey;
 	private KeyCode leftKey;
@@ -62,6 +66,8 @@ public class PlayerControl : MonoBehaviour
 			attackKey = KeyCode.RightShift;
 
 		}
+
+		bodyParts = GetComponentsInChildren<MeshRenderer> ();
 		
 	}
 	
@@ -77,7 +83,9 @@ public class PlayerControl : MonoBehaviour
 		{
 			fromPos = transform.position;
 			toPos = transform.position + CheckInputs ();
+			Quaternion newRotation = Quaternion.Euler(90 * GetNewRotation ());
 			transform.position = toPos;
+			bodyPartsPivot.rotation = newRotation;
 
 		}
 
@@ -163,6 +171,7 @@ public class PlayerControl : MonoBehaviour
 
 	}
 
+	//Deprecated
 	IEnumerator ForceTriggerRecheck ()
 	{
 		GetComponents<BoxCollider> () [1].enabled = false;
@@ -181,6 +190,16 @@ public class PlayerControl : MonoBehaviour
 		{
 		case 0:
 			onLog = state;
+
+			if (state)
+			{
+				//transform.localPosition = new Vector3 (0.75f, transform.localPosition.y, transform.localPosition.z);
+
+			} else
+			{
+				//transform.position = new Vector3 (transform.position.x, 0.88f, transform.position.z);
+
+			}
 
 			break;
 
@@ -240,6 +259,41 @@ public class PlayerControl : MonoBehaviour
 
 	}
 
+	private Vector3 GetNewRotation ()
+	{
+		if (Input.GetKeyDown(leftKey) && !DoDirectionCheck(Vector3.forward))
+		{
+			//transform.Translate (new Vector3 (0, 0, moveDistance));
+
+			//Vector3 fromPos = transform.position;
+			//Vector3 toPos = transform.position + new Vector3 (0, 0, moveDistance);
+
+			return new Vector3 (0, 0, 0);
+
+		} else if (Input.GetKeyDown(rightKey) && !DoDirectionCheck(Vector3.back))
+		{
+			//transform.Translate (new Vector3 (0, 0, -moveDistance));
+
+			return new Vector3 (0, -2f, 0);
+
+		} else if (Input.GetKeyDown(upKey) && !DoDirectionCheck(Vector3.right))
+		{
+			//transform.Translate (new Vector3 (moveDistance, 0, 0));
+
+			return new Vector3 (0, 1, 0);
+
+		} else if (Input.GetKeyDown(downKey) && !DoDirectionCheck(Vector3.left))
+		{
+			//transform.Translate (new Vector3 (-moveDistance, 0, 0));
+
+			return new Vector3 (-moveDistance, -1, 0);
+
+		}
+
+		return Vector3.zero;
+
+	}
+
 	//Takes the sent value and finds the nearest multiple of target. Ex. if value = 13 and target = 4 then 12 is returned
 	int GetRoundedValue (float value, int target)
 	{
@@ -258,6 +312,12 @@ public class PlayerControl : MonoBehaviour
 		}
 
 		return tempValue;
+
+	}
+
+	public void AssignColor (Color newColor)
+	{
+		GetComponent<MeshRenderer> ().material.color = newColor;
 
 	}
 }
