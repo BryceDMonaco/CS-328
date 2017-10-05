@@ -40,7 +40,7 @@ public class StateController : MonoBehaviour
 
 				Vector3 temp = col.transform.localPosition;
 
-				col.transform.localPosition = new Vector3 (temp.x, temp.y, 0);
+				//col.transform.localPosition = new Vector3 (temp.x, temp.y, 0);
 
 			} else if (clearParent)
 			{

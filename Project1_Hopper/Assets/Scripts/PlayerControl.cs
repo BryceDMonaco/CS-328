@@ -30,8 +30,12 @@ public class PlayerControl : MonoBehaviour
 	private int zBounds = 32;			//To prevent the player from escaping on the z axis
 
 	[Header ("Attack Variables")]
-	public int attackReach = 8;
+	public float maxAttackReach = 4;
+	private float actualReach; 			//Calculated with raycast, will range from 0 to maxAttackReach
+
+	public float attackCooldown = .5f;
 	public LineRenderer tongueRenderer;
+	private bool isAttacking = false;
 
 	[Header ("Status Variables")]
 	public bool onLog = false;
@@ -86,9 +90,15 @@ public class PlayerControl : MonoBehaviour
 		{
 			fromPos = transform.position;
 			toPos = transform.position + CheckInputs ();
-			Quaternion newRotation = Quaternion.Euler(90 * GetNewRotation ());
+			Quaternion newRotation = Quaternion.Euler (90 * GetNewRotation ());
 			transform.position = toPos;
 			bodyPartsPivot.rotation = newRotation;
+
+		}
+
+		if (!isAttacking && Input.GetKey(attackKey))
+		{
+			AttackCheck ();
 
 		}
 
@@ -113,7 +123,9 @@ public class PlayerControl : MonoBehaviour
 		bool inPlay;
 		bool isObstructed;
 
-		if (Physics.Raycast(transform.position, direction, 4f, 8)) //Should only be able to hit other players
+		RaycastHit hit;
+
+		if (Physics.Raycast(transform.position, direction, out hit, 4f) && hit.collider.CompareTag("Player")) //Should only be able to hit other players
 		{
 			Debug.Log ("Hit!");
 
@@ -139,11 +151,32 @@ public class PlayerControl : MonoBehaviour
 
 		}
 
-		Debug.Log ("Position is valid: " + inPlay);
+		Debug.Log ("Position is valid: " + inPlay + " Obstructed: " + isObstructed);
 
 		return (isObstructed || !inPlay);
 
-			//FF F TF F FT F TT T
+	}
+
+	bool DoPositionCheck (Vector3 offset)
+	{
+
+		//Debug.Log ("Checking position for validity: " + newPos);
+
+		bool inPlay;
+
+		Vector3 newPos = transform.position + offset;
+
+		if ((newPos.x >= -xBounds && newPos.x <= xBounds) && (newPos.z >= -zBounds && newPos.z <= zBounds))
+		{
+			inPlay = true;
+
+		} else
+		{
+			inPlay = false;
+
+		}
+
+		return inPlay;
 
 	}
 		
@@ -346,6 +379,135 @@ public class PlayerControl : MonoBehaviour
 	public void AssignColor (Color newColor)
 	{
 		GetComponent<MeshRenderer> ().material.color = newColor;
+
+	}
+
+	IEnumerator AttackCooldown ()
+	{
+		isAttacking = true;
+		isMoving = true; //Immobilize the player
+
+		//tongueRenderer.SetPosition (0, (actualReach - 1) * Vector3.forward);
+		StartCoroutine (TongueAnimation(actualReach - 1));
+
+		yield return new WaitForSeconds (attackCooldown / 2f);
+
+		//tongueRenderer.SetPosition (0, Vector3.zero);
+		isMoving = false;
+
+		yield return new WaitForSeconds (attackCooldown / 2f);
+
+		isAttacking = false;
+
+
+	}
+
+	private bool AttackCheck ()
+	{
+		RaycastHit hit;
+
+		if (Physics.Raycast(transform.position, bodyPartsPivot.forward, out hit, maxAttackReach + 4))
+		{
+			actualReach = 0f;
+
+			if (hit.collider.CompareTag("Player"))
+			{
+				Debug.Log (hit.collider.name + " hit by " + transform.name + " from distance " + hit.distance);
+
+				actualReach = hit.distance;
+
+				if (actualReach == 7)
+				{
+					actualReach = maxAttackReach + 1;
+
+				}
+
+				hit.collider.GetComponent<PlayerControl> ().RecieveHit (bodyPartsPivot.rotation.eulerAngles.y);
+
+			} else
+			{
+				actualReach = maxAttackReach + 1;
+
+			}
+
+
+		} else
+		{
+			actualReach = maxAttackReach + 1;
+
+		}
+
+		//Debug.DrawLine (transform.position, hit.point, Color.blue, .5f);
+
+		StartCoroutine (AttackCooldown ());
+
+		return false;
+			
+	}
+
+	public void RecieveHit (float direction) //Direction will be a rotation 0 (attacked from right), 90 (attacked from bottom), 180 (attacked from left), 270 (attacked from top)
+	{
+		Vector3 knockBack = Vector3.zero;
+
+		Debug.Log ("I was hit! Direction " + direction);
+
+		switch ((int) direction)
+		{
+		case 0:
+			knockBack = new Vector3 (0f, 0f, moveDistance);
+
+			break;
+
+		case 90:
+			knockBack = new Vector3 (moveDistance, 0f, 0f);
+
+			break;
+
+		case 180:
+			knockBack = new Vector3 (0f, 0f, -moveDistance);
+
+			break;
+
+		case 270:
+			knockBack = new Vector3 (-moveDistance, 0f, 0f);
+
+			break;
+
+		default:
+			Debug.Log ("No case for direction " + direction);
+
+			break;
+			
+
+		}
+
+		if (DoPositionCheck(knockBack))
+		{
+			transform.position = transform.position + knockBack;
+
+		}
+
+
+
+	}
+
+	IEnumerator TongueAnimation (float distance)
+	{
+		float stepTime = attackCooldown / 16f;
+
+		tongueRenderer.SetPosition (0, (actualReach - 1) * Vector3.forward);
+
+		yield return new WaitForSeconds (8 * stepTime);
+
+		for (int i = 1; i <= 4 ; i++) //Out
+		{
+			tongueRenderer.SetPosition(0, Vector3.forward * (distance / (float) i));
+
+			yield return new WaitForSeconds (stepTime);
+
+		}
+
+		tongueRenderer.SetPosition (0, Vector3.zero);
 
 	}
 }

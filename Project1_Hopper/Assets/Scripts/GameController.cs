@@ -21,6 +21,8 @@ public class GameController : MonoBehaviour
 
 	void Start () 
 	{
+		players = FindObjectsOfType<PlayerControl> ();
+
 		if (players.Length >= playerColors.Length)
 		{
 			Debug.LogError ("Error: More players than available colors!");
