@@ -209,9 +209,9 @@ public class PlayerControl : MonoBehaviour
 
 	public void RespawnPlayer ()
 	{
-		transform.position = spawnPoint;
-
 		transform.SetParent (null);
+
+		transform.position = spawnPoint;
 
 		onLog = false;
 

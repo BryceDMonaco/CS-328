@@ -1,7 +1,7 @@
 ﻿/*
  *	Author: Bryce Monaco
  *
- *	Last Updated: 9/30/17
+ *	Last Updated: 10/7/17
  *
  *	Description:
  *
@@ -19,7 +19,17 @@ public class ObjectDeleter : MonoBehaviour
 	{
 		if (!playersOnly && (col.CompareTag("Vehicle") || col.CompareTag("Log")))
 		{
-			Destroy (col.gameObject);
+			//Check for any player children and respawn them
+			PlayerControl[] attachedPlayers = col.GetComponentsInChildren<PlayerControl>();
+
+			foreach (PlayerControl p in attachedPlayers)
+			{
+				p.RespawnPlayer ();
+
+			}
+
+			//Once children are taken care of then delete the object after 5s to give it time to go off screen
+			Destroy (col.gameObject, 5f);
 
 		} else if (col.CompareTag("Player"))
 		{
