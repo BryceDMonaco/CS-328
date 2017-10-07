@@ -818,6 +818,7 @@ MonoBehaviour:
   maxAttackReach: 4
   attackCooldown: 0.5
   tongueRenderer: {fileID: 120921490535703170}
+  webObject: {fileID: 1643884862536884, guid: adc92f0271b0b42f5b0ff8b09710553e, type: 2}
   onLog: 0
   overWater: 0
   bodyParts: []

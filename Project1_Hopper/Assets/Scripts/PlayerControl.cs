@@ -37,6 +37,9 @@ public class PlayerControl : MonoBehaviour
 	public LineRenderer tongueRenderer;
 	private bool isAttacking = false;
 
+	public GameObject webObject;
+	private int webCount = 3;
+
 	[Header ("Status Variables")]
 	public bool onLog = false;
 	public bool overWater = false;
@@ -45,12 +48,14 @@ public class PlayerControl : MonoBehaviour
 	[Header ("Art Variables")]
 	public MeshRenderer[] bodyParts;
 	public Transform bodyPartsPivot;
+	private Color myColor;
 
 	private KeyCode upKey;
 	private KeyCode downKey;
 	private KeyCode leftKey;
 	private KeyCode rightKey;
 	private KeyCode attackKey;
+	private KeyCode altAttackKey;
 
 	void Start () 
 	{
@@ -63,6 +68,7 @@ public class PlayerControl : MonoBehaviour
 			leftKey = KeyCode.A;
 			rightKey = KeyCode.D;
 			attackKey = KeyCode.LeftShift;
+			altAttackKey = KeyCode.LeftAlt;
 
 		} else
 		{
@@ -71,6 +77,7 @@ public class PlayerControl : MonoBehaviour
 			leftKey = KeyCode.LeftArrow;
 			rightKey = KeyCode.RightArrow;
 			attackKey = KeyCode.RightShift;
+			altAttackKey = KeyCode.RightAlt;
 
 		}
 
@@ -90,15 +97,34 @@ public class PlayerControl : MonoBehaviour
 		{
 			fromPos = transform.position;
 			toPos = transform.position + CheckInputs ();
-			Quaternion newRotation = Quaternion.Euler (90 * GetNewRotation ());
+			//Quaternion newRotation = Quaternion.Euler (90 * GetNewRotation ());
 			transform.position = toPos;
+			//bodyPartsPivot.rotation = newRotation;
+
+		}
+
+		if ((Input.GetKeyDown (leftKey) || Input.GetKeyDown (rightKey) || Input.GetKeyDown (upKey) || Input.GetKeyDown (downKey))) 
+		{
+			Quaternion newRotation = Quaternion.Euler (90 * GetNewRotation ());
 			bodyPartsPivot.rotation = newRotation;
 
 		}
 
-		if (!isAttacking && Input.GetKey(attackKey))
+		if (!isAttacking && Input.GetKeyDown(attackKey))
 		{
 			AttackCheck ();
+
+		}
+
+		if (Input.GetKeyDown(altAttackKey) && webCount > 0)
+		{
+			Vector3 webPos = new Vector3 (transform.position.x, 0.7f, transform.position.z);
+
+			GameObject web = Instantiate (webObject, webPos, transform.rotation);
+
+			web.GetComponent<Web> ().SetColor (myColor, transform.gameObject);
+
+			webCount--;
 
 		}
 
@@ -322,7 +348,7 @@ public class PlayerControl : MonoBehaviour
 	//TODO: Can be obtimized by having CheckInputs() call this function
 	private Vector3 GetNewRotation ()
 	{
-		if (Input.GetKeyDown(leftKey) && !DoDirectionCheck(Vector3.forward))
+		if (Input.GetKeyDown(leftKey))
 		{
 			//transform.Translate (new Vector3 (0, 0, moveDistance));
 
@@ -331,19 +357,19 @@ public class PlayerControl : MonoBehaviour
 
 			return new Vector3 (0, 0, 0);
 
-		} else if (Input.GetKeyDown(rightKey) && !DoDirectionCheck(Vector3.back))
+		} else if (Input.GetKeyDown(rightKey))
 		{
 			//transform.Translate (new Vector3 (0, 0, -moveDistance));
 
 			return new Vector3 (0, -2f, 0);
 
-		} else if (Input.GetKeyDown(upKey) && !DoDirectionCheck(Vector3.right))
+		} else if (Input.GetKeyDown(upKey))
 		{
 			//transform.Translate (new Vector3 (moveDistance, 0, 0));
 
 			return new Vector3 (0, 1, 0);
 
-		} else if (Input.GetKeyDown(downKey) && !DoDirectionCheck(Vector3.left))
+		} else if (Input.GetKeyDown(downKey))
 		{
 			//transform.Translate (new Vector3 (-moveDistance, 0, 0));
 
@@ -379,6 +405,8 @@ public class PlayerControl : MonoBehaviour
 	public void AssignColor (Color newColor)
 	{
 		GetComponent<MeshRenderer> ().material.color = newColor;
+
+		myColor = newColor;
 
 	}
 
@@ -508,6 +536,22 @@ public class PlayerControl : MonoBehaviour
 		}
 
 		tongueRenderer.SetPosition (0, Vector3.zero);
+
+	}
+
+	public void AddPickup (PickupType type)
+	{
+		if (type == PickupType.Spider)
+		{
+			webCount += 3;
+
+		}
+
+	}
+
+	public void FreezePlayer (bool state)
+	{
+		isMoving = state;
 
 	}
 }
