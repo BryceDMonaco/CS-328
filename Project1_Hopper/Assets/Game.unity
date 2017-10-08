@@ -362,6 +362,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 21
       objectReference: {fileID: 0}
+    - target: {fileID: 114211527496189418, guid: e6c25f854c5f84eb899da42968889048,
+        type: 2}
+      propertyPath: pickupArtObject
+      value: 
+      objectReference: {fileID: 637314814}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e6c25f854c5f84eb899da42968889048, type: 2}
   m_IsPrefabParent: 0
@@ -4073,6 +4078,11 @@ Prefab:
     - {fileID: 64503156989992514, guid: c38df915aac7dac47933e866df1be51f, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: c38df915aac7dac47933e866df1be51f, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &637314814 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1442606236972732, guid: e6c25f854c5f84eb899da42968889048,
+    type: 2}
+  m_PrefabInternal: {fileID: 204191623}
 --- !u!4 &724366327 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4460856074104646, guid: c38df915aac7dac47933e866df1be51f,
@@ -4892,35 +4902,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4026223220395934, guid: 2eccc5652aeada14580b45d4922ab7f7,
     type: 2}
   m_PrefabInternal: {fileID: 2077116317}
---- !u!1 &1214772403 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1883424103605392, guid: e6c25f854c5f84eb899da42968889048,
-    type: 2}
-  m_PrefabInternal: {fileID: 204191623}
---- !u!65 &1214772404
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1214772403}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1214772405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1214772403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25b105774ad8f42de9b587f1cd44822b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thisType: 0
 --- !u!4 &1229146535 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4646442310119012, guid: 6e68289d20ccf1141b0e02520a63ce0d,
