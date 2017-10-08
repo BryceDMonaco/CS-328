@@ -20,8 +20,11 @@ public class Web : MonoBehaviour
 	int targetPlayerNumber;
 	PlayerControl target;
 
+	public Transform webArt;
+
 	public int maxHeath = 10;
 	public int minHealth = 5;
+	private int topHealth;
 
 	private KeyCode upKey;
 	private KeyCode downKey;
@@ -33,6 +36,7 @@ public class Web : MonoBehaviour
 	void Start () 
 	{
 		health = Random.Range (minHealth, maxHeath);
+		topHealth = health;
 
 	}
 	
@@ -43,6 +47,10 @@ public class Web : MonoBehaviour
 			if (Input.GetKeyDown (leftKey) || Input.GetKeyDown (rightKey) || Input.GetKeyDown (upKey) || Input.GetKeyDown (downKey))
 			{
 				health--;
+
+				float scaleFactor = (float)health / (float)topHealth;
+
+				webArt.localScale = Vector3.one * scaleFactor;
 
 			}
 
@@ -64,7 +72,7 @@ public class Web : MonoBehaviour
 
 		myColor = newColor;
 
-		GetComponent<MeshRenderer> ().material.SetColor("_Color", myColor);
+		GetComponentInChildren<MeshRenderer> ().material.SetColor("_Color", myColor);
 	}
 
 	void OnTriggerEnter (Collider col)
@@ -78,6 +86,15 @@ public class Web : MonoBehaviour
 			SetInputs (target.player);
 
 			hasPlayerTrapped = true;
+
+		} else if (col.CompareTag("Vehicle") && hasPlayerTrapped) //A vehicle is hitting the web with a player attached
+		{
+			target.FreezePlayer (false);
+
+			target.RespawnPlayer ();
+
+			Destroy (gameObject);
+
 		}
 
 	}

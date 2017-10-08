@@ -38,7 +38,7 @@ public class PlayerControl : MonoBehaviour
 	private bool isAttacking = false;
 
 	public GameObject webObject;
-	private int webCount = 0;
+	private int webCount = 3;
 
 	[Header ("Status Variables")]
 	public bool onLog = false;
