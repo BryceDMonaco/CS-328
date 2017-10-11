@@ -155,6 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateNumber: 0
   becomeParent: 1
+  clearParent: 0
 --- !u!114 &114571167508057272
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -168,6 +169,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 8
   startRotation: {x: 0, y: 0, z: 90}
+  vehicleColors: []
+  coloredParts: []
 --- !u!198 &198189631901460334
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -17,9 +17,31 @@ public class VehicleController : MonoBehaviour
 
 	public Vector3 startRotation;
 
+	public Color[] vehicleColors;
+
+	public MeshRenderer[] coloredParts;
+
 	void Start ()
 	{
 		transform.rotation = Quaternion.Euler (startRotation);
+
+		if (vehicleColors.Length > 0)
+		{
+			int index = Random.Range (0, vehicleColors.Length);
+
+			//Debug.Log (index);
+
+			Color thisColor = vehicleColors [index];
+
+			foreach (MeshRenderer rend in coloredParts)
+			{
+				rend.material.color = thisColor;
+
+			}
+
+		}
+
+
 
 	}
 	

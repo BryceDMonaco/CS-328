@@ -17,7 +17,7 @@ public class VehicleSpawner : MonoBehaviour
 	public float minSemiWait = 3f;	//The minimum amount of time the spawner should wait AFTER a semi is spawned
 	public float maxWait = 5f;
 
-	private bool isWaiting = false;
+	private bool isWaiting = true;
 	private int lastSpawnedVehicle; //0 = car, 1 = semi
 	private float lastSpawnedVehicleWait;
 
@@ -25,7 +25,7 @@ public class VehicleSpawner : MonoBehaviour
 
 	void Start () 
 	{
-		SpawnTimer ();
+		StartCoroutine (SpawnTimer (0f));
 
 	}
 	
@@ -45,6 +45,16 @@ public class VehicleSpawner : MonoBehaviour
 		isWaiting = true;
 
 		yield return new WaitForSeconds (Random.Range(lastSpawnedVehicleWait, maxWait));
+
+		isWaiting = false;
+
+	}
+
+	IEnumerator SpawnTimer (float startRange)
+	{
+		isWaiting = true;
+
+		yield return new WaitForSeconds (Random.Range(startRange, maxWait));
 
 		isWaiting = false;
 

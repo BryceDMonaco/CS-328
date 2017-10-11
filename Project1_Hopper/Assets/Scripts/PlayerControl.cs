@@ -36,6 +36,7 @@ public class PlayerControl : MonoBehaviour
 	public float attackCooldown = .5f;
 	public LineRenderer tongueRenderer;
 	private bool isAttacking = false;
+	private GameController controller;
 
 	public GameObject webObject;
 	private int webCount = 3;
@@ -44,6 +45,7 @@ public class PlayerControl : MonoBehaviour
 	public bool onLog = false;
 	public bool overWater = false;
 	private bool isMoving = false;
+	public bool hasFly = false;
 
 	[Header ("Art Variables")]
 	public MeshRenderer[] bodyParts;
@@ -59,6 +61,8 @@ public class PlayerControl : MonoBehaviour
 
 	void Start () 
 	{
+		controller = FindObjectOfType<GameController> ();
+
 		spawnPoint = transform.position;
 
 		if (player == 1)
@@ -110,13 +114,13 @@ public class PlayerControl : MonoBehaviour
 
 		}
 
-		if (!isAttacking && Input.GetKeyDown(attackKey))
+		if (!hasFly && !isAttacking && Input.GetKeyDown(attackKey))
 		{
 			AttackCheck ();
 
 		}
 
-		if (Input.GetKeyDown(altAttackKey) && webCount > 0)
+		if (!hasFly && Input.GetKeyDown(altAttackKey) && !onLog && webCount > 0 && controller.CanPlaceWeb(player))
 		{
 			Vector3 webPos = new Vector3 (transform.position.x, 0.7f, transform.position.z);
 
@@ -240,6 +244,36 @@ public class PlayerControl : MonoBehaviour
 		transform.position = spawnPoint;
 
 		onLog = false;
+
+		if (hasFly)
+		{
+			hasFly = false;
+
+			FindObjectOfType<GoldenFly> ().PlayerDroppedFly ();
+
+		}
+
+		if (player == 1)
+		{
+			controller.UpdateLives(1, -1);
+
+			if (controller.player1Lives <= 0)
+			{
+				gameObject.SetActive (false);
+
+			}
+
+		} else if (player == 2)
+		{
+			controller.UpdateLives(2, -1);
+
+			if (controller.player2Lives <= 0)
+			{
+				gameObject.SetActive (false);
+
+			}
+
+		}
 
 	}
 
@@ -452,6 +486,20 @@ public class PlayerControl : MonoBehaviour
 
 				hit.collider.GetComponent<PlayerControl> ().RecieveHit (bodyPartsPivot.rotation.eulerAngles.y);
 
+			} else if (hit.collider.CompareTag("Web"))
+			{
+				hit.collider.GetComponent<Web> ().HitByTongue (gameObject);
+
+				actualReach = hit.distance;
+
+				Debug.Log (hit.collider.name + " hit by " + transform.name + " from distance " + hit.distance);
+
+				if (actualReach > 6)
+				{
+					actualReach = 6;
+
+				}
+
 			} else
 			{
 				actualReach = maxAttackReach + 1;
@@ -554,4 +602,11 @@ public class PlayerControl : MonoBehaviour
 		isMoving = state;
 
 	}
+
+	public void PickedFly (bool gotFly)
+	{
+		hasFly = gotFly;
+
+	}
+
 }

@@ -126,7 +126,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1604005657069226}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -54.8947, y: 0.8923178, z: 5.819702}
+  m_LocalPosition: {x: 18.732391, y: 0.5, z: -43.00978}
   m_LocalScale: {x: 4.4686174, y: 0.7846356, z: 2.3514812}
   m_Children:
   - {fileID: 4181415506542816}
@@ -292,3 +292,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   startRotation: {x: 0, y: 0, z: 0}
+  vehicleColors:
+  - {r: 0.7921569, g: 0.12941177, b: 0.12941177, a: 1}
+  - {r: 0.11764705, g: 0.3793103, b: 1, a: 1}
+  - {r: 0.5147059, g: 0.5147059, b: 0.5147059, a: 1}
+  - {r: 0.22923876, g: 0.3897059, b: 0.2635455, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  coloredParts:
+  - {fileID: 23100745915684526}
+  - {fileID: 23758959295357456}

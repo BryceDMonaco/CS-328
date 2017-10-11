@@ -26,6 +26,10 @@ public class Web : MonoBehaviour
 	public int minHealth = 5;
 	private int topHealth;
 
+	public float stableLifetime = 10f; 	//The web will not change for this amount of s
+	public float degradeTime = 1f;		//After stableLifetime s, the web will lose 1 health every this amount of s
+	private bool degradeCycleRunning = false;
+
 	private KeyCode upKey;
 	private KeyCode downKey;
 	private KeyCode leftKey;
@@ -33,24 +37,34 @@ public class Web : MonoBehaviour
 	private KeyCode attackKey;
 	private KeyCode altAttackKey;
 
+	private GameController controller;
+
 	void Start () 
 	{
+		controller = FindObjectOfType<GameController> ();
+
 		health = Random.Range (minHealth, maxHeath);
 		topHealth = health;
+
+		StartCoroutine (Lifetime ());
+
+		degradeCycleRunning = true;
 
 	}
 	
 	void Update () 
 	{
+		if (!degradeCycleRunning)
+		{
+			StartCoroutine (HealthDegradation ());
+
+		}
+
 		if (hasPlayerTrapped)
 		{
 			if (Input.GetKeyDown (leftKey) || Input.GetKeyDown (rightKey) || Input.GetKeyDown (upKey) || Input.GetKeyDown (downKey))
 			{
 				health--;
-
-				float scaleFactor = (float)health / (float)topHealth;
-
-				webArt.localScale = Vector3.one * scaleFactor;
 
 			}
 
@@ -58,9 +72,39 @@ public class Web : MonoBehaviour
 			{
 				target.FreezePlayer (false);
 
+				if (myOwner.GetComponent<PlayerControl>().player == 1)
+				{
+					controller.player1Webs -= 1;
+
+				} else
+				{
+					controller.player2Webs -= 1;
+
+				}
+
 				Destroy (gameObject);
 
 			}
+
+		}
+
+		float scaleFactor = (float)health / (float)topHealth;
+
+		webArt.localScale = Vector3.one * scaleFactor;
+
+		if (health <= 0)
+		{
+			if (myOwner.GetComponent<PlayerControl>().player == 1)
+			{
+				controller.player1Webs -= 1;
+
+			} else
+			{
+				controller.player2Webs -= 1;
+
+			}
+
+			Destroy (gameObject);
 
 		}
 
@@ -124,4 +168,36 @@ public class Web : MonoBehaviour
 		}
 
 	}
+
+	IEnumerator Lifetime ()
+	{
+		yield return new WaitForSeconds (stableLifetime);
+
+		degradeCycleRunning = false;
+
+
+	}
+
+	IEnumerator HealthDegradation ()
+	{
+		degradeCycleRunning = true;
+
+		yield return new WaitForSeconds (degradeTime);
+
+		health--;
+
+		degradeCycleRunning = false;
+
+	}
+
+	public void HitByTongue (GameObject tongueOwner)
+	{
+		if (!hasPlayerTrapped && tongueOwner != myOwner) //If the enemy hits the web with the tongue and isn't already trapped
+		{
+			health -= 3;
+
+		}
+
+	}
+
 }
