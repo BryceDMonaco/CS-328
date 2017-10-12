@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour 
 {
@@ -70,10 +71,12 @@ public class GameController : MonoBehaviour
 		if (gameOver && Input.GetKeyDown (KeyCode.Space))
 		{
 			//Reload the level
+			SceneManager.LoadScene("Game");
 
 		} else if (gameOver && Input.GetKeyDown (KeyCode.Escape))
 		{
 			//Return to menu
+			SceneManager.LoadScene("Menu");
 
 		}
 
@@ -90,6 +93,8 @@ public class GameController : MonoBehaviour
 			victoryText.enabled = true;
 			victorySubtitles.enabled = true;
 			victoryBackground.enabled = true;
+
+			gameOver = true;
 
 			if (player2Lives > 0)
 			{
@@ -120,6 +125,8 @@ public class GameController : MonoBehaviour
 			victoryText.enabled = true;
 			victorySubtitles.enabled = true;
 			victoryBackground.enabled = true;
+
+			gameOver = true;
 
 			if (player1Lives > 0)
 			{

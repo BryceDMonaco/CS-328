@@ -28,6 +28,18 @@ public class ObjectDeleter : MonoBehaviour
 
 			}
 
+			if (attachedPlayers == null)
+			{
+				BotController[] attachedBots = col.GetComponentsInChildren<BotController> ();
+
+				foreach (BotController p in attachedBots)
+				{
+					p.RespawnPlayer ();
+
+				}
+
+			}
+
 			//Once children are taken care of then delete the object after 5s to give it time to go off screen
 			Destroy (col.gameObject, 5f);
 
