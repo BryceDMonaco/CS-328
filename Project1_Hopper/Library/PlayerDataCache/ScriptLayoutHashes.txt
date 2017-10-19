@@ -1,4 +1,4 @@
-WindowsStandalone
+WebGL
 5cffe7f39d8623eaa41a09b98ad60db2 Assembly-CSharp.dll:Sirenix.OdinInspector.Demos.HorizontalGroupAttributeExamples
 eff86762c08abbfa368814b73685c44c Assembly-CSharp.dll:PigeonCoopToolkit.Effects.Trails.SmokeTrail
 75cd0c6c744b9733ef29aa6c59ece2b1 Assembly-CSharp.dll:TMPro.Examples.VertexZoom
