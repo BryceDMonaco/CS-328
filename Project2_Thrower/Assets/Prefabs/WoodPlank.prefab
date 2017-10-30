@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 61923025878620872}
   - component: {fileID: 50863544430342424}
   - component: {fileID: 114321991568925148}
-  - component: {fileID: 114010617230923442}
   m_Layer: 0
   m_Name: WoodPlank
   m_TagString: Damager
@@ -89,22 +88,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5.12, y: 5.12}
   m_EdgeRadius: 0
---- !u!114 &114010617230923442
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1218133790894114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 439f88c0e73524a6ab4239b3d413b765, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitPoints: 1
-  damagedSprite: {fileID: 21300000, guid: 51aa618a8833d4bde8a59977fd4bac91, type: 3}
-  damageImpactSpeed: 0
-  shouldSplinter: 0
-  splinters: []
 --- !u!114 &114321991568925148
 MonoBehaviour:
   m_ObjectHideFlags: 1

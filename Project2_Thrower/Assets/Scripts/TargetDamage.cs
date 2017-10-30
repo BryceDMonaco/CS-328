@@ -21,6 +21,7 @@ public class TargetDamage : MonoBehaviour
 	private int currentHitPoints;
 	private float damageImpactSpeedSqr;
 	private SpriteRenderer spriteRenderer;
+	private bool isAlive = true;
 
 	void Start () 
 	{
@@ -50,7 +51,7 @@ public class TargetDamage : MonoBehaviour
 
 		currentHitPoints--;
 
-		if (currentHitPoints <= 0)
+		if (currentHitPoints <= 0 && isAlive)
 		{
 			Kill ();
 
@@ -60,6 +61,8 @@ public class TargetDamage : MonoBehaviour
 
 	void Kill ()
 	{
+		isAlive = false;
+
 		spriteRenderer.enabled = false;
 
 		GetComponent<Collider2D> ().enabled = false;
@@ -81,6 +84,10 @@ public class TargetDamage : MonoBehaviour
 				Destroy (splinter, Random.Range (3f, 5f));
 
 			}
+
+		} else
+		{
+			FindObjectOfType<GameManager> ().remainingEnemies--;
 
 		}
 
