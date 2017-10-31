@@ -62,7 +62,16 @@ public class Resetter : MonoBehaviour
 
 		} else if (col.CompareTag("Enemy") || col.CompareTag("Damager"))
 		{
-			col.GetComponent<TargetDamage> ().Kill ();
+			if (col.name.Contains("Stone"))
+			{
+				Destroy (col.gameObject);
+
+			} else
+			{
+				col.GetComponent<TargetDamage> ().Damage (100); //Immediately kill the object
+
+
+			}
 
 		}
 

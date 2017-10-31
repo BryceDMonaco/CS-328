@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
 
 	void Start () 
 	{
-
+		//scoreText = FindObjectOfType<Text> ();
 		scoreText.text = "SCORE: 0";
 	}
 	
@@ -47,13 +47,18 @@ public class GameManager : MonoBehaviour
 			//SceneManager.LoadScene (0);
 
 		}
-		
+			
 	}
 
 	public void ChangeScore (int amount)
 	{
+		Debug.Log ("Changing score by: " + amount);
+
 		score += amount;
-		scoreText.text = "SCORE: " + amount;
+
+		Debug.Log("New score: " + score);
+
+		scoreText.text = "SCORE: " + score;
 
 	}
 

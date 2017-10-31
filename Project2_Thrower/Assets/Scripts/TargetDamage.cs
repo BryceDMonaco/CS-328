@@ -18,6 +18,7 @@ public class TargetDamage : MonoBehaviour
 	public bool shouldSplinter = false;
 	public GameObject[] splinters;
 	public int pointValue = 10;
+	public GameManager myManager;
 
 	private int currentHitPoints;
 	private float damageImpactSpeedSqr;
@@ -44,7 +45,7 @@ public class TargetDamage : MonoBehaviour
 
 		if ((thisFrameVelocitySqr < 0.0025f) && (lastVelocitySqr > damageImpactSpeedSqr))
 		{
-			Damage ();
+			Damage (1);
 
 		}
 
@@ -66,17 +67,17 @@ public class TargetDamage : MonoBehaviour
 
 		}
 
-		Damage ();
+		Damage (1);
 
 	}
 
-	void Damage ()
+	public void Damage (int amount)
 	{
-		Debug.Log(transform.name + " hit!");
+		//Debug.Log(transform.name + " hit!");
 
 		spriteRenderer.sprite = damagedSprite;
 
-		currentHitPoints--;
+		currentHitPoints -= amount;
 
 		if (currentHitPoints <= 0 && isAlive)
 		{
@@ -114,7 +115,7 @@ public class TargetDamage : MonoBehaviour
 
 		} else
 		{
-			GameManager myManager = FindObjectOfType<GameManager> ();
+			//GameManager myManager = FindObjectOfType<GameManager> ();
 
 			myManager.remainingEnemies--;
 			myManager.ChangeScore (pointValue);
