@@ -17,7 +17,8 @@ public class Resetter : MonoBehaviour
 
 	public float resetSpeed = 0.025f;
 	private float resetSpeedSqr;
-	private SpringJoint2D spring;
+	public SpringJoint2D spring;
+	private GameManager myManager;
 
 	public Rigidbody2D projectile;
 
@@ -26,6 +27,8 @@ public class Resetter : MonoBehaviour
 		resetSpeedSqr = resetSpeed * resetSpeed;
 
 		spring = projectile.GetComponent<SpringJoint2D> ();
+
+		myManager = FindObjectOfType<GameManager> ();
 
 	}
 	
@@ -37,9 +40,11 @@ public class Resetter : MonoBehaviour
 
 		}
 
-		if (spring == null && projectile.velocity.sqrMagnitude < resetSpeedSqr)
+		if (spring == null && projectile != null && projectile.velocity.sqrMagnitude < resetSpeedSqr)
 		{
-			Reset ();
+			projectile.GetComponent<ProjectileDragging> ().Kill ();
+			myManager.BallAway ();
+
 
 		}
 
@@ -49,7 +54,15 @@ public class Resetter : MonoBehaviour
 	{
 		if (col.attachedRigidbody == projectile)
 		{
+			//col.GetComponent<ProjectileDragging> ().Kill ();
+			Destroy(col.gameObject);
 			Reset ();
+
+
+
+		} else if (col.CompareTag("Enemy") || col.CompareTag("Damager"))
+		{
+			col.GetComponent<TargetDamage> ().Kill ();
 
 		}
 
@@ -57,7 +70,8 @@ public class Resetter : MonoBehaviour
 
 	void Reset ()
 	{
-		SceneManager.LoadScene (myLevel);
+		//SceneManager.LoadScene (myLevel);
+		myManager.BallAway();
 
 	}
 }

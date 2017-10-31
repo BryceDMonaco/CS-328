@@ -17,11 +17,14 @@ public class TargetDamage : MonoBehaviour
 	public float damageImpactSpeed;
 	public bool shouldSplinter = false;
 	public GameObject[] splinters;
+	public int pointValue = 10;
 
 	private int currentHitPoints;
 	private float damageImpactSpeedSqr;
 	private SpriteRenderer spriteRenderer;
 	private bool isAlive = true;
+	private float lastVelocitySqr = 0f;
+	private Rigidbody2D myRB;
 
 	void Start () 
 	{
@@ -30,7 +33,23 @@ public class TargetDamage : MonoBehaviour
 		currentHitPoints = hitPoints;
 
 		damageImpactSpeedSqr = damageImpactSpeed * damageImpactSpeed;
+
+		myRB = GetComponent<Rigidbody2D> ();
 		
+	}
+
+	void FixedUpdate ()
+	{
+		float thisFrameVelocitySqr = myRB.velocity.sqrMagnitude;
+
+		if ((thisFrameVelocitySqr < 0.0025f) && (lastVelocitySqr > damageImpactSpeedSqr))
+		{
+			Damage ();
+
+		}
+
+		lastVelocitySqr = thisFrameVelocitySqr;
+
 	}
 	
 	void OnCollisionEnter2D (Collision2D collision)
@@ -47,6 +66,14 @@ public class TargetDamage : MonoBehaviour
 
 		}
 
+		Damage ();
+
+	}
+
+	void Damage ()
+	{
+		Debug.Log(transform.name + " hit!");
+
 		spriteRenderer.sprite = damagedSprite;
 
 		currentHitPoints--;
@@ -59,7 +86,7 @@ public class TargetDamage : MonoBehaviour
 
 	}
 
-	void Kill ()
+	public void Kill ()
 	{
 		isAlive = false;
 
@@ -87,7 +114,10 @@ public class TargetDamage : MonoBehaviour
 
 		} else
 		{
-			FindObjectOfType<GameManager> ().remainingEnemies--;
+			GameManager myManager = FindObjectOfType<GameManager> ();
+
+			myManager.remainingEnemies--;
+			myManager.ChangeScore (pointValue);
 
 		}
 

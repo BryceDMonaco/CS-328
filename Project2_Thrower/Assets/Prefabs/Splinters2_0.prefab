@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 50129804010242848}
   m_Layer: 8
   m_Name: Splinters2_0
-  m_TagString: Untagged
+  m_TagString: Splinter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

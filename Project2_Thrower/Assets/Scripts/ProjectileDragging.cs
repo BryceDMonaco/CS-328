@@ -16,6 +16,7 @@ public class ProjectileDragging : MonoBehaviour
 
 	public LineRenderer catapultLineFront;
 	public LineRenderer catapultLineBack;
+	public LineRenderer defaultLine;
 	public Transform catapult;
 
 	public SpringJoint2D spring;
@@ -28,6 +29,9 @@ public class ProjectileDragging : MonoBehaviour
 	private Rigidbody2D myRB;
 
 	public float leftLineExtra = 0f;
+
+	public Sprite stillSprite;
+	public Sprite flyingSprite;
 
 	void Start () 
 	{
@@ -42,6 +46,8 @@ public class ProjectileDragging : MonoBehaviour
 		maxStrethSqr = maxStretch * maxStretch;
 
 		leftCatapultToProjectile = new Ray (catapultLineFront.transform.position, Vector3.zero);
+
+		defaultLine.enabled = false;
 
 	}
 	
@@ -62,6 +68,8 @@ public class ProjectileDragging : MonoBehaviour
 
 				myRB.velocity = prevVelocity;
 
+				GetComponent<SpriteRenderer> ().sprite = flyingSprite;
+
 			}
 
 			if (!clickedOn)
@@ -76,6 +84,7 @@ public class ProjectileDragging : MonoBehaviour
 		{
 			catapultLineFront.enabled = false;
 			catapultLineBack.enabled = false;
+			defaultLine.enabled = true;
 
 		}
 		
@@ -141,6 +150,28 @@ public class ProjectileDragging : MonoBehaviour
 		catapultLineFront.SetPosition (1, holdPoint);
 		catapultLineBack.SetPosition (1, holdPoint);
 
+
+	}
+
+	public void Kill ()
+	{
+		Destroy (gameObject);
+
+	}
+
+	public void GetDefaultValues (Transform pult, LineRenderer left, LineRenderer right, LineRenderer def)
+	{
+		catapult = pult;
+
+		catapultLineFront = left;
+		catapultLineBack = right;
+		defaultLine = def;
+
+		def.enabled = false;
+		catapultLineFront.enabled = true;
+		catapultLineBack.enabled = true;
+
+		spring.connectedBody = right.GetComponent<Rigidbody2D> ();
 
 	}
 }
