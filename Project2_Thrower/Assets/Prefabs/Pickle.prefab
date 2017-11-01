@@ -23,11 +23,9 @@ GameObject:
   - component: {fileID: 50417550537156786}
   - component: {fileID: 60789381693714152}
   - component: {fileID: 114083833761444386}
-  - component: {fileID: 114461914598909234}
   - component: {fileID: 198798281060469844}
   - component: {fileID: 199370366730020914}
   - component: {fileID: 114893170270499648}
-  - component: {fileID: 114343700284405294}
   m_Layer: 0
   m_Name: Pickle
   m_TagString: Enemy
@@ -42,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1140284843594844}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 127.9, y: 0.7, z: 0}
+  m_LocalPosition: {x: 151, y: 26.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -120,34 +118,7 @@ MonoBehaviour:
   shouldSplinter: 0
   splinters: []
   pointValue: 50
---- !u!114 &114343700284405294
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1140284843594844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 439f88c0e73524a6ab4239b3d413b765, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitPoints: 2
-  damagedSprite: {fileID: 21300000, guid: deb7cfec11b214835b31ed7ec2f5641e, type: 3}
-  damageImpactSpeed: 5
-  shouldSplinter: 0
-  splinters: []
-  pointValue: 50
---- !u!114 &114461914598909234
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1140284843594844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 972f90afcaa1146faacdf2fefd1874e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  myManager: {fileID: 0}
 --- !u!114 &114893170270499648
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -218,7 +189,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -763542563
+  randomSeed: -993362131
   InitialModule:
     serializedVersion: 3
     enabled: 1

@@ -17,6 +17,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour 
 {
 	public int remainingEnemies = 0;
+	public int remainingCats = 3;
 	public int score = 0;
 	public Text scoreText;
 
@@ -34,10 +35,17 @@ public class GameManager : MonoBehaviour
 
 	private bool alreadyResetting = false;
 
+	[Space(10)]
+	[Header("UI Variables")]
+	public GameObject winPanel;
+	public GameObject losePanel;
+	public TextMesh catText;
+
 	void Start () 
 	{
 		//scoreText = FindObjectOfType<Text> ();
 		scoreText.text = "SCORE: 0";
+		catText.text = "Cats Left: " + remainingCats;
 	}
 	
 	void Update () 
@@ -47,6 +55,8 @@ public class GameManager : MonoBehaviour
 			//SceneManager.LoadScene (0);
 
 		}
+
+
 			
 	}
 
@@ -91,9 +101,23 @@ public class GameManager : MonoBehaviour
 			}
 
 		}
-			
 
-		StartCoroutine(ResetCamera());
+
+		if (remainingEnemies <= 0) //Victory!
+		{
+			winPanel.SetActive (true);
+
+		} else if (remainingEnemies > 0 && remainingCats > 0) //Still attempts left
+		{
+			StartCoroutine(ResetCamera());
+
+		} else if (remainingEnemies > 0 && remainingCats <= 0) //Game over
+		{
+			losePanel.SetActive (true);
+
+		}
+
+
 
 	}
 
@@ -124,6 +148,9 @@ public class GameManager : MonoBehaviour
 			myCamFollow.projectile = fab.transform;
 			myResetter.projectile = fab.GetComponent<Rigidbody2D>();
 			myResetter.spring = fab.GetComponent <SpringJoint2D>();
+
+			remainingCats--;
+			catText.text = "Cats Left: " + remainingCats;
 
 		} else
 		{

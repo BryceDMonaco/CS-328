@@ -113,6 +113,8 @@ public class TargetDamage : MonoBehaviour
 
 			}
 
+			myManager.ChangeScore (pointValue);
+
 		} else
 		{
 			//GameManager myManager = FindObjectOfType<GameManager> ();
