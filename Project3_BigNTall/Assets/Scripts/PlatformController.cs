@@ -1,8 +1,8 @@
 ﻿/*
- *	Author:
- *	Last Updated:
+ *	Author: Bryce Monaco
+ *	Last Updated: 11/14/2017
  *
- *	Description:
+ *	Description:	This Script handles movement for each player.
  *
  */
 
@@ -19,6 +19,12 @@ public class PlatformController : MonoBehaviour {
 	public float jumpForce = 1000f;
 	public float maxCastDistance = 0.1f;
 	public float bottomExtension = 0f;
+
+	public Transform spriteObject; //This is the object that changes size
+	public SpriteRenderer feetObject;
+
+	public Sprite feetStanding;
+	public Sprite feetJumping;
 
 	public bool grounded = false;
 	private Animator anim;
@@ -48,12 +54,19 @@ public class PlatformController : MonoBehaviour {
 		{
 			Debug.Log (transform.name + " is grounded by " + groundHit.collider.name);
 
+			feetObject.sprite = feetStanding;
+
+		} else
+		{
+			feetObject.sprite = feetJumping;
+
 		}
 
 
 		if (Input.GetKeyDown(KeyCode.Space) && grounded)
 		{
 			jump = true;
+
 		}
 	}
 
@@ -76,6 +89,18 @@ public class PlatformController : MonoBehaviour {
 		if (h == 0f)
 		{
 			rb2d.velocity = Vector2.up * rb2d.velocity.y;
+
+		} else
+		{
+			if (h > 0f)
+			{
+				feetObject.flipX = true;
+
+			} else
+			{
+				feetObject.flipX = false;
+
+			}
 
 		}
 

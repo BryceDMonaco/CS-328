@@ -2,7 +2,8 @@
  *	Author: Bryce Monaco
  *	Last Updated: Nov 10, 2017
  *
- *	Description:
+ *	Description: 	This script handles the growth of the characters
+ *					as well as switching characters.
  *
  */
 
@@ -43,7 +44,7 @@ public class CharacterAbility : MonoBehaviour
 		myRenderer = GetComponent<SpriteRenderer> ();
 		myController = GetComponentInParent<PlatformController> ();
 
-		UpdateColors ();
+		UpdateColors (false);
 	}
 	
 	void Update () 
@@ -52,7 +53,7 @@ public class CharacterAbility : MonoBehaviour
 		{
 			isActive = !isActive;
 
-			UpdateColors ();
+			UpdateColors (true);
 
 		}
 	}
@@ -137,7 +138,7 @@ public class CharacterAbility : MonoBehaviour
 
 	}
 
-	void UpdateColors ()
+	void UpdateColors (bool shouldSwitchCameras) //Should be F at start and T every other time
 	{
 		if (isActive)
 		{
@@ -146,7 +147,17 @@ public class CharacterAbility : MonoBehaviour
 			GetComponentInParent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeRotation;
 			faceRenderer.sprite = activeSprite;
 
-			Camera.main.GetComponent<CameraFollow> ().SwitchCameraTargets (beTall, beWide);
+			if (shouldSwitchCameras)
+			{
+				Camera.main.GetComponent<CameraFollow> ().SwitchCameraTargets (beTall, beWide);
+
+			} else 
+			{
+				Camera.main.GetComponent<CameraFollow> ().SetTarget (beTall, beWide);
+
+			}
+
+
 
 		} else
 		{

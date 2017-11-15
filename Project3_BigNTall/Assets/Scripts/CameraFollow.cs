@@ -1,8 +1,9 @@
 ﻿/*
- *	Author:
- *	Last Updated:
+ *	Author: Bryce Monaco
+ *	Last Updated: 11/14/2017
  *
- *	Description:
+ *	Description:	This script handles the camera behavior for every level.
+ *					It is adapted from a script from Monaco's Project 2.
  *
  */
 
@@ -52,7 +53,9 @@ public class CameraFollow : MonoBehaviour
 			if (t >= 1f)
 			{
 				shouldSwitchTargets = false;
-				//Time.timeScale = 1f;
+				Time.timeScale = 1f;
+
+				FreezePlayers (false);
 
 			}
 
@@ -90,7 +93,34 @@ public class CameraFollow : MonoBehaviour
 
 		startPos = transform.position.x;
 
-		//Time.timeScale = 0f; //"Pause" the game while the camera moves to it's new position
+		FreezePlayers (true);
+
+	}
+
+	public void SetTarget (bool goTall, bool goWide) //Used to manually changethe target
+	{
+		targetTall = goTall;
+		targetWide = goWide;
+
+		if (targetTall)
+		{
+			target = tallPlayer;
+
+		} else if (targetWide)
+		{
+			target = widePlayer;
+
+		}
+
+	}
+
+	void FreezePlayers (bool state) //Send T to freeze players, F to unfreeze
+	{
+		tallPlayer.GetComponent<PlatformController> ().enabled = !state;
+		tallPlayer.GetComponent<Rigidbody2D> ().simulated = !state;
+
+		widePlayer.GetComponent<PlatformController> ().enabled = !state;
+		widePlayer.GetComponent<Rigidbody2D> ().simulated = !state;
 
 	}
 }

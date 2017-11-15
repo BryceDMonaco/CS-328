@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Tips
+    uniqueID: 3350947599
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
