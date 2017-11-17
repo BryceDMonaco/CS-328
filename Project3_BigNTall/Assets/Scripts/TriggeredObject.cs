@@ -25,6 +25,9 @@ public class TriggeredObject : MonoBehaviour
 
 	private float t = 0f;
 
+	[Header ("Scaling Object")]
+	public bool isScalingObject = false;
+
 	void Start () 
 	{
 		

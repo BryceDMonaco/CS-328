@@ -38,6 +38,7 @@ public class CharacterAbility : MonoBehaviour
 
 	private SpriteRenderer myRenderer;
 	private PlatformController myController;
+	private RaycastHit2D playerCheck;
 
 	void Start () 
 	{
@@ -56,19 +57,60 @@ public class CharacterAbility : MonoBehaviour
 			UpdateColors (true);
 
 		}
+
+		if (!isActive)
+		{
+			FreezeThisPlayer (true);
+
+		}
 	}
 
 	void FixedUpdate ()
 	{
 		if (isActive)
 		{
+			RaycastHit2D playerCheckTemp;
+
+			if (beTall)
+			{
+				Vector2 checkEndPoint = new Vector2 (transform.parent.position.x, transform.parent.position.y + transform.localScale.y + 1f);
+
+
+				Debug.DrawLine (transform.parent.position, checkEndPoint, Color.blue);
+				playerCheckTemp = Physics2D.Linecast(transform.parent.position, checkEndPoint, 1 << LayerMask.NameToLayer("Player_Wide"));
+
+				playerCheck = playerCheckTemp;
+
+			} else if (beWide)
+			{
+				Vector2 checkEndPoint = new Vector2 (transform.parent.position.x + transform.localScale.x + 1f, transform.parent.position.y);
+
+
+				Debug.DrawLine (transform.parent.position, checkEndPoint, Color.blue);
+				playerCheckTemp = Physics2D.Linecast(transform.parent.position, checkEndPoint, 1 << LayerMask.NameToLayer("Player_Tall"));
+
+				playerCheck = playerCheckTemp;
+
+			}
+
 			if (Input.GetKey(sizeUpKey))
 			{
+
+
 				Vector3 scaleFactor = transform.localScale;
 				Vector3 positionOffset = transform.localPosition;
 
 				if (beTall && scaleFactor.y < maxLength)
 				{
+					if (playerCheck)
+					{
+						Debug.Log ("PC: " + transform.parent.name + " hit " + playerCheck.collider.name);
+
+						//Below isn't the most efficient line, but it's either this or a bunch of ifs with at least one using this
+						playerCheck.collider.transform.parent.GetComponentInChildren<CharacterAbility> ().FreezeThisPlayer (false); //Unfreeze the player so the active can move the inactive
+
+					}
+
 					scaleFactor.y += (growthSpeed * Time.fixedDeltaTime);
 
 					positionOffset.y = (0.639817f * scaleFactor.y) - 0.639474f;
@@ -76,6 +118,15 @@ public class CharacterAbility : MonoBehaviour
 
 				} else if (beWide && scaleFactor.x < maxLength)
 				{
+					if (playerCheck)
+					{
+						Debug.Log ("PC: " + transform.parent.name + " hit " + playerCheck.collider.name);
+
+						//Below isn't the most efficient line, but it's either this or a bunch of ifs with at least one using this
+						playerCheck.collider.transform.parent.GetComponentInChildren<CharacterAbility> ().FreezeThisPlayer (false); //Unfreeze the player so the active can move the inactive
+
+					}
+
 					scaleFactor.x += (growthSpeed * Time.fixedDeltaTime);
 
 					positionOffset.x = (0.639817f * scaleFactor.x) - 0.639474f;
@@ -165,6 +216,24 @@ public class CharacterAbility : MonoBehaviour
 			myController.enabled = false;
 			GetComponentInParent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
 			faceRenderer.sprite = inactiveSprite;
+
+		}
+
+	}
+
+	public void FreezeThisPlayer (bool state) //T to freeze player, F to unfreeze
+	{
+		if (!state && beWide)
+		{
+			myController.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
+
+		} else if (!state && beTall)
+		{
+			myController.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
+
+		}else 
+		{
+			myController.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
 
 		}
 

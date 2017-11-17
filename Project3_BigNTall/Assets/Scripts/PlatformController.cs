@@ -52,7 +52,7 @@ public class PlatformController : MonoBehaviour {
 
 		if (grounded)
 		{
-			Debug.Log (transform.name + " is grounded by " + groundHit.collider.name);
+			//Debug.Log (transform.name + " is grounded by " + groundHit.collider.name);
 
 			feetObject.sprite = feetStanding;
 
