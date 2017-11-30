@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlatformController : MonoBehaviour {
-
+        
 	[HideInInspector] public bool facingRight = true;
 	[HideInInspector] public bool jump = false;
 	public float moveForce = 365f;

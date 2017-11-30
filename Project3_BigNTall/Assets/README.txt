@@ -18,7 +18,7 @@ Current Features:
 
 Features To Add: 
 	- Animated feet
-	- Detecting when a character "dies" (currently nothing happens when a player falls out of the map)
+	- Detecting when a character "dies" (currently nothing happens when a player falls out of the map) - done
 	- Backgrounds/Better ground art (NOTE: 	if the ground sprites are changed then their scale is going to be completely different. If youre going to
 											make new ground art, make sure it is 512x512 pixels and in the import settings set it to 400 pixels per unit
 											Otherwise the scale will be completely wrong.)

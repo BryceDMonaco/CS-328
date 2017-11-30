@@ -20,6 +20,7 @@ public class TriggeredObject : MonoBehaviour
 
 	public float startPosition = 0f;
 	public float endPosition = 0f;
+    public bool movingUp = false;
 
 	public float moveSpeed = 0.5f;
 
@@ -39,7 +40,14 @@ public class TriggeredObject : MonoBehaviour
 		{
 			Vector3 newPosition = transform.localPosition;
 
-			newPosition.x = Mathf.SmoothStep (startPosition, endPosition, t);
+            if (!movingUp)
+            {
+                newPosition.x = Mathf.SmoothStep(startPosition, endPosition, t);
+            }
+            else
+            {
+                newPosition.y = Mathf.SmoothStep(startPosition, endPosition, t);
+            }
 
 			t += moveSpeed * Time.deltaTime;
 

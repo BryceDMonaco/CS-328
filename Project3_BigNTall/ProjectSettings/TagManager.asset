@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - ball
+  - weight
+  - player1
+  - player2
   layers:
   - Default
   - TransparentFX
@@ -17,7 +21,7 @@ TagManager:
   - Player
   - Player_Tall
   - Player_Wide
-  - 
+  - Level
   - 
   - 
   - 
@@ -40,6 +44,9 @@ TagManager:
   m_SortingLayers:
   - name: Tips
     uniqueID: 3350947599
+    locked: 0
+  - name: Level
+    uniqueID: 2809381349
     locked: 0
   - name: Default
     uniqueID: 0
