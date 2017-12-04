@@ -11,7 +11,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlatformController : MonoBehaviour {
-        
+    
+	public bool isActive = false;
+
 	[HideInInspector] public bool facingRight = true;
 	[HideInInspector] public bool jump = false;
 	public float moveForce = 365f;
@@ -86,23 +88,29 @@ public class PlatformController : MonoBehaviour {
 
 		}
 
-		if (h == 0f)
+		if (isActive)
 		{
-			rb2d.velocity = Vector2.up * rb2d.velocity.y;
-
-		} else
-		{
-			if (h > 0f)
+			if (h == 0f)
 			{
-				feetObject.flipX = true;
+				rb2d.velocity = Vector2.up * rb2d.velocity.y;
 
 			} else
 			{
-				feetObject.flipX = false;
+				if (h > 0f)
+				{
+					feetObject.flipX = true;
+
+				} else
+				{
+					feetObject.flipX = false;
+
+				}
 
 			}
 
 		}
+
+
 
 		if (jump)
 		{

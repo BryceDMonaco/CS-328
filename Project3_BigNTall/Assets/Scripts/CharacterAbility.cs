@@ -53,6 +53,7 @@ public class CharacterAbility : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.LeftShift))
 		{
 			isActive = !isActive;
+			myController.isActive = isActive;
 
 			UpdateColors (true);
 
@@ -218,6 +219,8 @@ public class CharacterAbility : MonoBehaviour
 			faceRenderer.sprite = inactiveSprite;
 
 		}
+
+		myController.isActive = isActive;
 
 	}
 
