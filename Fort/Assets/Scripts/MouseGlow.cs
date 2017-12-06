@@ -2,7 +2,7 @@
  *	Author:
  *	Last Updated:
  *
- *	Description:
+ *	Description: This is the script attached to the tester which goes to where the mouse is clicked
  *
  */
 
@@ -47,6 +47,11 @@ public class MouseGlow : MonoBehaviour
 
 				}
 
+			} else
+			{
+
+				transform.position = defaultPosition;
+				lastHit = null;
 			}
 
 		}

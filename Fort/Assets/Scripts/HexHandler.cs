@@ -42,9 +42,13 @@ public class HexHandler : MonoBehaviour
 
 		}
 
-		if (lastColor == glowColor)
+		if (!isObstructed && lastColor == glowColor)
 		{
 			myRenderer.material.SetColor ("_EmissionColor", Color.green);	
+
+		} else if (isObstructed && lastColor == glowColor)
+		{
+			myRenderer.material.SetColor ("_EmissionColor", Color.red);
 
 		} else
 		{
@@ -57,6 +61,14 @@ public class HexHandler : MonoBehaviour
 	void OnMouseExit ()
 	{
 		myRenderer.material.SetColor ("_EmissionColor", lastColor);	
+
+		lastColorStored = false;
+
+	}
+
+	void OnTriggerExit (Collider col)
+	{
+		myRenderer.material.SetColor ("_EmissionColor", Color.black);
 
 		lastColorStored = false;
 

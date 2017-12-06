@@ -15,6 +15,7 @@ public class MapGenerator : MonoBehaviour
 {
 	private MeshRenderer myRenderer;
 	public bool useSeed = false;
+	public bool waitForChoice = false;
 	public float xOrg;
 	public float yOrg;
 	private Color[] pix;
@@ -74,7 +75,7 @@ public class MapGenerator : MonoBehaviour
 		}
 	}
 
-	void CalcNoise () 
+	public Texture2D CalcNoise () 
 	{
 		if (!useSeed)
 		{
@@ -100,13 +101,27 @@ public class MapGenerator : MonoBehaviour
 		noiseImg.SetPixels(pix);
 		noiseImg.Apply();
 
-		GenerateMap ();
+		//GenerateMap ();
+
+		if (!waitForChoice)
+		{
+			GenerateMap (null);
+			
+		}
+			
+		return noiseImg;
 
 	}
 
-	void GenerateMap ()
+	public void GenerateMap (Texture2D sentTexture)
 	{
 		DeleteGrid ();
+
+		if (sentTexture == null)
+		{
+			sentTexture = noiseImg;
+
+		}
 
 		originPos = mapOrigin.position;
 
@@ -118,7 +133,7 @@ public class MapGenerator : MonoBehaviour
 
 				hexArray [(size * i) + j] = tile;
 
-				float newScale = 5 * Mathf.Round (noiseImg.GetPixel (i, j).r * accuracy) / accuracy;
+				float newScale = 5 * Mathf.Round (sentTexture.GetPixel (i, j).r * accuracy) / accuracy;
 
 				float scaleTest = newScale / 5;
 
@@ -162,16 +177,33 @@ public class MapGenerator : MonoBehaviour
 
 					Destroy (tile.gameObject); 
 
+					pix [(int)(i * sentTexture.width + j)] = new Color(48/255f, 93/255f, 119/255f);
+
+
+				} else
+				{
+					tile.transform.localPosition = new Vector3 ((0.75f * i), (newScale / 4), (zOffset * (i % 2)) + (2 * j * zOffset));
+
+					tile.transform.localScale = new Vector3 (tile.transform.localScale.x, newScale, tile.transform.localScale.z);
+
+					pix [(int)(i * sentTexture.width + j)] = tile.GetComponent<MeshRenderer>().material.color;
+
 				}
 
-				tile.transform.localPosition = new Vector3 ((0.75f * i), (newScale / 4), (zOffset * (i % 2)) + (2 * j * zOffset));
 
-				tile.transform.localScale = new Vector3 (tile.transform.localScale.x, newScale, tile.transform.localScale.z);
 
 
 			}
 
 
+		}
+
+		sentTexture.SetPixels(pix);
+		sentTexture.Apply();
+
+		if (!waitForChoice)
+		{
+			noiseImg = sentTexture;
 
 		}
 
