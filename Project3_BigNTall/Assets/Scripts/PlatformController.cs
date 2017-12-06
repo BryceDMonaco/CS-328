@@ -24,11 +24,13 @@ public class PlatformController : MonoBehaviour {
 
 	public Transform spriteObject; //This is the object that changes size
 	public SpriteRenderer feetObject;
+	public GameObject feetRunning;
 
 	public Sprite feetStanding;
 	public Sprite feetJumping;
 
 	public bool grounded = false;
+	public bool moving = false;
 	private Animator anim;
 	private Rigidbody2D rb2d;
 
@@ -58,8 +60,25 @@ public class PlatformController : MonoBehaviour {
 
 			feetObject.sprite = feetStanding;
 
+			if (moving) {
+				feetRunning.gameObject.GetComponent<SpriteRenderer> ().enabled = true;
+				feetObject.enabled = false;
+				if (feetObject.flipX) {
+					feetRunning.gameObject.GetComponent<Transform> ().transform.localScale = new Vector3(-0.4341422f, 0.4341421f, 0.4341421f);
+				} else 
+				{
+					feetRunning.gameObject.GetComponent<Transform> ().transform.localScale = new Vector3(0.4341422f, 0.4341421f, 0.4341421f);
+				}
+			} else 
+			{
+				feetRunning.gameObject.GetComponent<SpriteRenderer> ().enabled = false;
+				feetObject.enabled = true;
+			}
+
 		} else
 		{
+			feetRunning.gameObject.GetComponent<SpriteRenderer> ().enabled = false;
+			feetObject.enabled = true;
 			feetObject.sprite = feetJumping;
 
 		}
@@ -79,35 +98,36 @@ public class PlatformController : MonoBehaviour {
 		if (h * rb2d.velocity.x < maxSpeed) 
 		{
 			rb2d.AddForce (Vector2.right * h * moveForce);
+			moving = true;
 
 		}
 
 		if (Mathf.Abs (rb2d.velocity.x) > maxSpeed) 
 		{
 			rb2d.velocity = new Vector2 (Mathf.Sign (rb2d.velocity.x) * maxSpeed, rb2d.velocity.y);
+			moving = true;
 
 		}
 
-		if (isActive)
-		{
-			if (h == 0f)
-			{
+		if (isActive) {
+			if (h == 0f) {
 				rb2d.velocity = Vector2.up * rb2d.velocity.y;
+				moving = false;
 
-			} else
-			{
-				if (h > 0f)
-				{
+			} else {
+				if (h > 0f) {
 					feetObject.flipX = true;
 
-				} else
-				{
+				} else {
 					feetObject.flipX = false;
 
 				}
 
 			}
 
+		} else 
+		{
+			moving = false;
 		}
 
 
