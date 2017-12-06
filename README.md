@@ -6,6 +6,6 @@ Project1 and Project2 are both individual projects, while Project3 and Fort (ess
 
 **Project 2** - CAT-apult is an Angry Birds-style game with various physics puzzles. It features multiple levels as well. CAT-apult can be played here: https://simmer.io/@BMonaco/project2-catapult
 
-**Project 3** - Brick and Shorty is a single player puzzle game where the player must use each character's abilities to solve various puzzles. Most of the programming was done by myself (Bryce Monaco) while puzzle design and programming for various puzzle components was done by Alex Kastanek. *As of 12/4/17 the game is not yet released, the README will be updated with more information when it is available.*
+**Project 3** - Brick and Shorty is a single player puzzle game where the player must use each character's abilities to solve various puzzles. Most of the programming was done by myself (Bryce Monaco) while puzzle design and programming for various puzzle components was done by Alex Kastanek. The game can be played here: https://simmer.io/@BMonaco/brickandshorty
 
 **Fort (Project 4)** - (README will be updated with more information as the project is worked on)
