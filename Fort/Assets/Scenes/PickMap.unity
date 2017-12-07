@@ -789,6 +789,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useSeed: 0
   waitForChoice: 1
+  acceptableWaterRatio: 0.4
   xOrg: 0
   yOrg: 0
   noiseImg: {fileID: 0}

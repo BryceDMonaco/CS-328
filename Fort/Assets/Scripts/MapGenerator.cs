@@ -16,13 +16,15 @@ public class MapGenerator : MonoBehaviour
 	private MeshRenderer myRenderer;
 	public bool useSeed = false;
 	public bool waitForChoice = false;
+	[Range (0f, 1f)]
+	public float acceptableWaterRatio = 0.5f; //The maximum amount of underwater tiles allowed in a map, used to prevent small generations
 	public float xOrg;
 	public float yOrg;
 	private Color[] pix;
 	public Texture2D noiseImg;
 
 	[Range (5f, 30f)]
-	public float accuracy = 10f;
+	public float accuracy = 10f; //Set to 20 in editor
 	public float scale = 1f;
 	public float hexScale = 5f;
 
@@ -61,7 +63,7 @@ public class MapGenerator : MonoBehaviour
 
 		//myRenderer.material.mainTexture = noiseImg;
 
-		CalcNoise ();
+		//CalcNoise ();
 
 
 	}
@@ -73,33 +75,37 @@ public class MapGenerator : MonoBehaviour
 
 	public Texture2D CalcNoise () 
 	{
-		noiseImg = new Texture2D (size, size);
-		noiseImg.filterMode = FilterMode.Point;
-		pix = new Color[noiseImg.width * noiseImg.height];
-
-		if (!useSeed)
+		do 
 		{
-			xOrg = Random.Range (0, 9999);
-			yOrg = Random.Range (0, 9999);
+			noiseImg = new Texture2D (size, size);
+			noiseImg.filterMode = FilterMode.Point;
+			pix = new Color[noiseImg.width * noiseImg.height];
 
-		}
-
-		for (float y = 0; y < noiseImg.height; y++)
-		{
-			for (float x = 0; x < noiseImg.width; x++)
+			if (!useSeed)
 			{
-				float xCoord = xOrg + x / noiseImg.width * scale;
-				float yCoord = yOrg + y / noiseImg.height * scale;
-				float sample = Mathf.PerlinNoise(xCoord, yCoord);
-
-				pix [(int)(y * noiseImg.width + x)] = new Color (sample, sample, sample);
+				xOrg = Random.Range (0, 9999);
+				yOrg = Random.Range (0, 9999);
 
 			}
 
-		}
+			for (float y = 0; y < noiseImg.height; y++)
+			{
+				for (float x = 0; x < noiseImg.width; x++)
+				{
+					float xCoord = xOrg + x / noiseImg.width * scale;
+					float yCoord = yOrg + y / noiseImg.height * scale;
+					float sample = Mathf.PerlinNoise(xCoord, yCoord);
 
-		noiseImg.SetPixels(pix);
-		noiseImg.Apply();
+					pix [(int)(y * noiseImg.width + x)] = new Color (sample, sample, sample);
+
+				}
+
+			}
+
+			noiseImg.SetPixels(pix);
+			noiseImg.Apply();
+
+		} while (!CheckGenerationTolerances (noiseImg) && !useSeed);
 
 		//GenerateMap ();
 
@@ -275,6 +281,49 @@ public class MapGenerator : MonoBehaviour
 
 			}
 		}
+
+	}
+
+	bool CheckGenerationTolerances (Texture2D sentNoise)
+	{
+		float mapSize = size * size;
+		float waterCount = 0;
+
+		Color[] noisePixels = sentNoise.GetPixels ();
+
+		for (int i = 0; i < mapSize; i++)
+		{
+			float newScale = 5 * Mathf.Round (noisePixels[i].r * accuracy) / accuracy;
+
+			if (newScale < 2f) //The tile would be deleted on generation
+			{
+				waterCount++;
+
+			}
+
+			if ((waterCount / mapSize) > acceptableWaterRatio)
+			{
+				break;
+
+			}
+		}
+
+		if ((waterCount / mapSize) > acceptableWaterRatio)
+		{
+			Debug.Log ("Ratio not met. Water count: " + waterCount);
+
+			return false; //The map does not meet the ratio
+
+		} else
+		{
+			Debug.Log ("Ratio met. Water count: " + waterCount);
+
+			return true; //The map meets the ratio (below the max)
+
+		}
+
+
+
 
 	}
 }
