@@ -52,14 +52,14 @@ public class MapGenerator : MonoBehaviour
 	{
 		hexArray = new GameObject[size * size];
 
-		myRenderer = transform.GetComponent<MeshRenderer> ();
+		//myRenderer = transform.GetComponent<MeshRenderer> ();
 
 		noiseImg = new Texture2D (size, size);
 		noiseImg.filterMode = FilterMode.Point;
 		pix = new Color[noiseImg.width * noiseImg.height];
 
 
-		myRenderer.material.mainTexture = noiseImg;
+		//myRenderer.material.mainTexture = noiseImg;
 
 		CalcNoise ();
 
@@ -68,15 +68,15 @@ public class MapGenerator : MonoBehaviour
 	
 	void Update () 
 	{
-		if (Input.GetKeyDown (KeyCode.Space))
-		{
-			CalcNoise ();
 
-		}
 	}
 
 	public Texture2D CalcNoise () 
 	{
+		noiseImg = new Texture2D (size, size);
+		noiseImg.filterMode = FilterMode.Point;
+		pix = new Color[noiseImg.width * noiseImg.height];
+
 		if (!useSeed)
 		{
 			xOrg = Random.Range (0, 9999);
@@ -113,13 +113,69 @@ public class MapGenerator : MonoBehaviour
 
 	}
 
+	public Texture2D GetColoredNoise (Texture2D sentNoise)
+	{
+		//For some reason this function was modifying the sent texture because the variables were only copying the reference and not duplicating the texture.
+		//The code below forces unity to create a duplicate texture, why this isn't a constructor I do not know.
+		Texture2D thisNoise = new Texture2D (size, size);
+		thisNoise.filterMode = FilterMode.Point;
+		thisNoise.SetPixels (sentNoise.GetPixels ());
+		thisNoise.Apply ();
+
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				Color thisColor = Color.magenta;
+
+				float newScale = 5 * Mathf.Round (thisNoise.GetPixel (i, j).r * accuracy) / accuracy;
+
+				float scaleTest = newScale / 5;
+
+				if ((scaleTest > 0f) && (scaleTest <= 0.4f))
+				{
+					thisColor = sandColor;
+
+				} else if ((scaleTest > 0.4f) && (scaleTest <= 0.6f))
+				{
+					//tile.GetComponent<MeshRenderer> ().material.color = grassColor;
+					thisColor = grassGradient.Evaluate((scaleTest - 0.4f) / (0.6f - 0.4f));
+
+				} else if ((scaleTest > 0.6f) && (scaleTest <= 1f))
+				{
+					//tile.GetComponent<MeshRenderer> ().material.color = mountainColor;
+					thisColor = mountainGradient.Evaluate((scaleTest - 0.6f) / (1f - 0.6f));
+
+				}
+
+				if (newScale < 2f) //The tile is under water (this value is arbitrary and will beed to be changed if the water is moved
+				{
+					thisColor = new Color(48/255f, 93/255f, 119/255f);
+
+
+				}
+
+				pix [(int)(i * thisNoise.width + j)] = thisColor;
+
+			}
+		}
+
+		thisNoise.SetPixels(pix);
+		thisNoise.Apply();
+
+		return thisNoise;
+
+	}
+
 	public void GenerateMap (Texture2D sentTexture)
 	{
+		Texture2D thisTexture = sentTexture;
+
 		DeleteGrid ();
 
-		if (sentTexture == null)
+		if (thisTexture == null)
 		{
-			sentTexture = noiseImg;
+			thisTexture = noiseImg;
 
 		}
 
@@ -133,7 +189,7 @@ public class MapGenerator : MonoBehaviour
 
 				hexArray [(size * i) + j] = tile;
 
-				float newScale = 5 * Mathf.Round (sentTexture.GetPixel (i, j).r * accuracy) / accuracy;
+				float newScale = 5 * Mathf.Round (thisTexture.GetPixel (i, j).r * accuracy) / accuracy;
 
 				float scaleTest = newScale / 5;
 
@@ -177,7 +233,7 @@ public class MapGenerator : MonoBehaviour
 
 					Destroy (tile.gameObject); 
 
-					pix [(int)(i * sentTexture.width + j)] = new Color(48/255f, 93/255f, 119/255f);
+					//pix [(int)(i * thisTexture.width + j)] = new Color(48/255f, 93/255f, 119/255f);
 
 
 				} else
@@ -186,7 +242,7 @@ public class MapGenerator : MonoBehaviour
 
 					tile.transform.localScale = new Vector3 (tile.transform.localScale.x, newScale, tile.transform.localScale.z);
 
-					pix [(int)(i * sentTexture.width + j)] = tile.GetComponent<MeshRenderer>().material.color;
+					//pix [(int)(i * thisTexture.width + j)] = tile.GetComponent<MeshRenderer>().material.color;
 
 				}
 
@@ -198,12 +254,12 @@ public class MapGenerator : MonoBehaviour
 
 		}
 
-		sentTexture.SetPixels(pix);
-		sentTexture.Apply();
+		//thisTexture.SetPixels(pix);
+		//thisTexture.Apply();
 
 		if (!waitForChoice)
 		{
-			noiseImg = sentTexture;
+			//noiseImg = thisTexture;
 
 		}
 
