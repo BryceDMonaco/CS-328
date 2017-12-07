@@ -17,7 +17,7 @@ public class MapGenerator : MonoBehaviour
 	public bool useSeed = false;
 	public bool waitForChoice = false;
 	[Range (0f, 1f)]
-	public float acceptableWaterRatio = 0.5f; //The maximum amount of underwater tiles allowed in a map, used to prevent small generations
+	public float acceptableWaterRatio = 0.5f; //The MAXIMUM amount of underwater tiles allowed in a map, used to prevent small generations
 	public float xOrg;
 	public float yOrg;
 	private Color[] pix;

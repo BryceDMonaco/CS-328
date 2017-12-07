@@ -368,7 +368,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!120 &684762103
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -756,7 +756,7 @@ GameObject:
   - component: {fileID: 1401978624}
   - component: {fileID: 1401978620}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: __Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -789,7 +789,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useSeed: 0
   waitForChoice: 1
-  acceptableWaterRatio: 0.4
+  acceptableWaterRatio: 0.3
   xOrg: 0
   yOrg: 0
   noiseImg: {fileID: 0}
