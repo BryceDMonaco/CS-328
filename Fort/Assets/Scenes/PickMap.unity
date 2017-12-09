@@ -234,7 +234,7 @@ MeshCollider:
   m_GameObject: {fileID: 318657903}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Convex: 0
   m_InflateMesh: 0
@@ -601,7 +601,7 @@ MeshCollider:
   m_GameObject: {fileID: 982759947}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Convex: 0
   m_InflateMesh: 0
@@ -687,7 +687,7 @@ MeshCollider:
   m_GameObject: {fileID: 1318460351}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Convex: 0
   m_InflateMesh: 0
@@ -938,18 +938,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generator: {fileID: 1401978620}
-  plane1: {fileID: 1318460353}
-  plane2: {fileID: 318657905}
-  plane3: {fileID: 982759949}
+  planeA: {fileID: 1318460353}
+  planeB: {fileID: 318657905}
+  planeC: {fileID: 982759949}
   islandRootA: {fileID: 1335813511}
-  islandRootB: {fileID: 0}
-  islandRootC: {fileID: 0}
-  noise1: {fileID: 0}
-  coloredNoise1: {fileID: 0}
-  noise2: {fileID: 0}
-  coloredNoise2: {fileID: 0}
-  noise3: {fileID: 0}
-  coloredNoise3: {fileID: 0}
+  noiseA: {fileID: 0}
+  colorednoiseA: {fileID: 0}
+  noiseB: {fileID: 0}
+  colorednoiseB: {fileID: 0}
+  noiseC: {fileID: 0}
+  colorednoiseC: {fileID: 0}
 --- !u!1 &2104368758
 GameObject:
   m_ObjectHideFlags: 0

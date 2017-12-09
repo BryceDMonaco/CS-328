@@ -10,6 +10,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MapGenerator : MonoBehaviour 
 {
@@ -77,7 +78,7 @@ public class MapGenerator : MonoBehaviour
 	{
 		do 
 		{
-			noiseImg = new Texture2D (size, size);
+			noiseImg = new Texture2D (size * 1, size * 1);
 			noiseImg.filterMode = FilterMode.Point;
 			pix = new Color[noiseImg.width * noiseImg.height];
 
@@ -104,6 +105,10 @@ public class MapGenerator : MonoBehaviour
 
 			noiseImg.SetPixels(pix);
 			noiseImg.Apply();
+
+			//TextureScale.Point(noiseImg, 16, 16);
+
+			//noiseImg.Resize(16, 16);
 
 		} while (!CheckGenerationTolerances (noiseImg) && !useSeed);
 
@@ -268,6 +273,42 @@ public class MapGenerator : MonoBehaviour
 			//noiseImg = thisTexture;
 
 		}
+
+		//Not sure why, but suddenly the trees stopped being placed at the correct height, this forces them to their height.
+		for (int i = 0; i < (size * size); i++)
+		{
+			if (hexArray[i] != null && hexArray[i].transform.childCount > 0)
+			{
+				hexArray [i].transform.GetChild (0).localPosition = new Vector3 (0f, 0.25f, 0f);
+
+			}
+
+			if (hexArray[i] != null && hexArray[i].GetComponent<HexHandler>().isObstructed)
+			{
+				//hexArray [i].GetComponent<NavMeshObstacle> ().enabled = true;
+
+
+
+			} else
+			{
+				
+
+			}
+
+			if (hexArray[i] != null)
+			{
+				//hexArray [i].GetComponent<NavMeshSurface> ().BuildNavMesh ();
+
+			}
+
+
+				
+
+		}
+
+		hexArray [1].GetComponent<NavMeshSurface> ().BuildNavMesh ();
+
+
 
 	}
 

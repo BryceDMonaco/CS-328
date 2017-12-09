@@ -14,23 +14,21 @@ public class MapPicker : MonoBehaviour
 {
 	public MapGenerator generator;
 
-	public MeshRenderer plane1;
-	public MeshRenderer plane2;
-	public MeshRenderer plane3;
+	public MeshRenderer planeA;
+	public MeshRenderer planeB;
+	public MeshRenderer planeC;
 
 	public GameObject islandRootA;
-	public GameObject islandRootB;
-	public GameObject islandRootC;
 
 	private Vector3 cameraIslandPosition;
 	private Quaternion cameraIslandRotation;
 
-	public Texture2D noise1;
-	public Texture2D coloredNoise1;
-	public Texture2D noise2;
-	public Texture2D coloredNoise2;
-	public Texture2D noise3;
-	public Texture2D coloredNoise3;
+	public Texture2D noiseA;
+	public Texture2D colorednoiseA;
+	public Texture2D noiseB;
+	public Texture2D colorednoiseB;
+	public Texture2D noiseC;
+	public Texture2D colorednoiseC;
 
 	void Start () 
 	{
@@ -40,18 +38,18 @@ public class MapPicker : MonoBehaviour
 		transform.position = new Vector3 (29f, 11.3538f, 7.6f);
 		transform.rotation = Quaternion.Euler (new Vector3 (90f, -90f, 0f));
 
-		noise1 = generator.CalcNoise ();
-		coloredNoise1 = generator.GetColoredNoise (noise1);
+		noiseA = generator.CalcNoise ();
+		colorednoiseA = generator.GetColoredNoise (noiseA);
 
-		noise2 = generator.CalcNoise ();
-		coloredNoise2 = generator.GetColoredNoise (noise2);
+		noiseB = generator.CalcNoise ();
+		colorednoiseB = generator.GetColoredNoise (noiseB);
 
-		noise3 = generator.CalcNoise ();
-		coloredNoise3 = generator.GetColoredNoise (noise3);
+		noiseC = generator.CalcNoise ();
+		colorednoiseC = generator.GetColoredNoise (noiseC);
 
-		plane1.material.mainTexture = coloredNoise1;
-		plane2.material.mainTexture = coloredNoise2;
-		plane3.material.mainTexture = coloredNoise3;
+		planeA.material.mainTexture = colorednoiseA;
+		planeB.material.mainTexture = colorednoiseB;
+		planeC.material.mainTexture = colorednoiseC;
 
 
 	}
@@ -78,21 +76,21 @@ public class MapPicker : MonoBehaviour
 	{
 		if (choice == 'A')
 		{
-			generator.GenerateMap (noise1);
+			generator.GenerateMap (noiseA);
 
 			transform.position = cameraIslandPosition;
 			transform.rotation = cameraIslandRotation;
 
 		} else if (choice == 'B')
 		{
-			generator.GenerateMap (noise2);
+			generator.GenerateMap (noiseB);
 
 			transform.position = cameraIslandPosition;
 			transform.rotation = cameraIslandRotation;
 
 		} else if (choice == 'C')
 		{
-			generator.GenerateMap (noise3);
+			generator.GenerateMap (noiseC);
 
 			transform.position = cameraIslandPosition;
 			transform.rotation = cameraIslandRotation;
