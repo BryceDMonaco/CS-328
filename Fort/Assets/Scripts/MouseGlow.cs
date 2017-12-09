@@ -9,10 +9,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MouseGlow : MonoBehaviour 
 {
 	public Color glowColor;
+	public NavMeshAgent myAgent;
 	private Transform lastHit;
 	private Vector3 defaultPosition;
 
@@ -44,6 +46,8 @@ public class MouseGlow : MonoBehaviour
 					lastHit = hitHex;
 
 					transform.position = lastHit.position;
+
+					myAgent.SetDestination (lastHit.position);
 
 				}
 
