@@ -46,13 +46,18 @@ public class MapGenerator : MonoBehaviour
 
 	public GameObject treeGroup;
 	public GameObject grassObject;
+	public GameObject homeBaseObject;
 
 	public GameObject[] hexArray;
 
 	private int size = 16;
 
+	private EnemySpawner gameSpawner;
+
 	void Start () 
 	{
+		gameSpawner = FindObjectOfType<EnemySpawner> ();
+
 		hexArray = new GameObject[size * size];
 
 		//myRenderer = transform.GetComponent<MeshRenderer> ();
@@ -197,6 +202,7 @@ public class MapGenerator : MonoBehaviour
 			for (int j = 0; j < size; j++)
 			{
 				GameObject tile = Instantiate (hexObject, mapOrigin);
+				tile.name = "Hex" + i + "/" + j;
 
 				hexArray [(size * i) + j] = tile;
 
@@ -282,33 +288,27 @@ public class MapGenerator : MonoBehaviour
 				hexArray [i].transform.GetChild (0).localPosition = new Vector3 (0f, 0.25f, 0f);
 
 			}
-
-			if (hexArray[i] != null && hexArray[i].GetComponent<HexHandler>().isObstructed)
-			{
-				//hexArray [i].GetComponent<NavMeshObstacle> ().enabled = true;
-
-
-
-			} else
-			{
-				
-
-			}
-
-			if (hexArray[i] != null)
-			{
-				//hexArray [i].GetComponent<NavMeshSurface> ().BuildNavMesh ();
-
-			}
-
-
-				
-
 		}
 
 		hexArray [1].GetComponent<NavMeshSurface> ().BuildNavMesh ();
 
+		gameSpawner.GetHexArraySize16 (hexArray); //This function assumes map size of 16 !!!!!!
 
+		Transform homeBase = null;
+
+		while (homeBase == null)
+		{
+			homeBase = hexArray [Random.Range (0, (size * size) - 1)].transform;
+
+		}
+
+		gameSpawner.homeBase = homeBase;
+
+		GameObject hb = Instantiate (homeBaseObject, homeBase.position, Quaternion.identity, homeBase);
+
+		//hb.transform.localPosition = new Vector3 (0f, 0.25f, 0f);
+
+		homeBase.GetComponent<MeshRenderer> ().material.color = Color.blue; //Debug to show the selected home base
 
 	}
 
