@@ -296,7 +296,7 @@ public class MapGenerator : MonoBehaviour
 
 		Transform homeBase = null;
 
-		while (homeBase == null)
+		while (homeBase == null || homeBase.GetComponent<HexHandler>().isObstructed)
 		{
 			homeBase = hexArray [Random.Range (0, (size * size) - 1)].transform;
 
@@ -304,7 +304,7 @@ public class MapGenerator : MonoBehaviour
 
 		gameSpawner.homeBase = homeBase;
 
-		GameObject hb = Instantiate (homeBaseObject, homeBase.position, Quaternion.identity, homeBase);
+		GameObject hb = Instantiate (homeBaseObject, homeBase.position, Quaternion.identity);
 
 		//hb.transform.localPosition = new Vector3 (0f, 0.25f, 0f);
 
