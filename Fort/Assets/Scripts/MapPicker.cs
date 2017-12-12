@@ -51,6 +51,8 @@ public class MapPicker : MonoBehaviour
 		planeB.material.mainTexture = colorednoiseB;
 		planeC.material.mainTexture = colorednoiseC;
 
+		FindObjectOfType<EnemySpawner>().tipText.text = "Select A Map With 'A' 'B' or 'C':";
+
 
 	}
 	
@@ -74,6 +76,8 @@ public class MapPicker : MonoBehaviour
 
 	void PickMap (char choice)
 	{
+		FindObjectOfType<EnemySpawner>().tipText.text = "Select Home Base Position";
+
 		if (choice == 'A')
 		{
 			generator.GenerateMap (noiseA);

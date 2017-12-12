@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class EnemySpawner : MonoBehaviour {
 
@@ -11,19 +13,47 @@ public class EnemySpawner : MonoBehaviour {
 	private Transform[] edgeHexes;
 
 	public Transform homeBase;
+	public GameObject homeBaseObject;
+
+	public int maxEnemiesSpawned = 4;
+	private int currentEnemiesSpawned = 0;
+
+	private bool canSpawn = false;
+
+	public Text tipText;
 
 	// Use this for initialization
 	void Start () 
 	{
-		
+		//tipText.text = "Select Home Base Position";
 		
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
+		if (canSpawn && currentEnemiesSpawned < maxEnemiesSpawned)
+		{
+			currentEnemiesSpawned++;
+
+			GameObject enemy = Instantiate (groundEnemy, edgeHexes [Random.Range (0, edgeHexes.Length)].position, Quaternion.identity);
+
+			enemy.GetComponent<NavMeshAgent> ().SetDestination (homeBase.position);
+
+			StartCoroutine (SpawnWait (Random.Range (0.5f, 1.5f)));
+
+		}
 		
-		
+	}
+
+	IEnumerator SpawnWait (float time)
+	{
+		canSpawn = false;
+
+		yield return new WaitForSeconds (time);
+
+		canSpawn = true;
+
 	}
 
 	//This is called by the map generator after it has completed map generation
@@ -69,6 +99,21 @@ public class EnemySpawner : MonoBehaviour {
 
 		}
 		*/
+
+	}
+
+	public void SetHomeBase (Transform sentBase)
+	{
+		homeBase = sentBase;
+
+		Vector3 hbPos = homeBase.position;
+		hbPos.y = homeBase.localScale.y / 2;
+
+		GameObject hb = Instantiate (homeBaseObject, hbPos, Quaternion.identity);
+
+		canSpawn = true;
+
+		tipText.text = "";
 
 	}
 }

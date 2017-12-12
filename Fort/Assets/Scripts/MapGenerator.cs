@@ -294,21 +294,9 @@ public class MapGenerator : MonoBehaviour
 
 		gameSpawner.GetHexArraySize16 (hexArray); //This function assumes map size of 16 !!!!!!
 
-		Transform homeBase = null;
-
-		while (homeBase == null || homeBase.GetComponent<HexHandler>().isObstructed)
-		{
-			homeBase = hexArray [Random.Range (0, (size * size) - 1)].transform;
-
-		}
-
-		gameSpawner.homeBase = homeBase;
-
-		GameObject hb = Instantiate (homeBaseObject, homeBase.position, Quaternion.identity);
-
 		//hb.transform.localPosition = new Vector3 (0f, 0.25f, 0f);
 
-		homeBase.GetComponent<MeshRenderer> ().material.color = Color.blue; //Debug to show the selected home base
+		//homeBase.GetComponent<MeshRenderer> ().material.color = Color.blue; //Debug to show the selected home base
 
 	}
 

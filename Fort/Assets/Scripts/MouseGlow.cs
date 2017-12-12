@@ -18,6 +18,8 @@ public class MouseGlow : MonoBehaviour
 	private Transform lastHit;
 	private Vector3 defaultPosition;
 
+	private bool hbSelected;
+
 	void Start () 
 	{
 		lastHit = null;
@@ -36,7 +38,13 @@ public class MouseGlow : MonoBehaviour
 			{
 				Transform hitHex = hit.collider.transform;
 
-				if (lastHit == hitHex) //Player clicked the same hex twice
+				if (!hbSelected && !hitHex.GetComponent<HexHandler>().isObstructed)
+				{
+					FindObjectOfType<EnemySpawner> ().SetHomeBase (hitHex);
+
+					hbSelected = true;
+
+				} else if (lastHit == hitHex) //Player clicked the same hex twice
 				{
 					transform.position = defaultPosition;
 					lastHit = null;
