@@ -112,6 +112,48 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &227080109
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 227080110}
+  - component: {fileID: 227080111}
+  m_Layer: 0
+  m_Name: __Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &227080110
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 227080109}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.4698234, y: 3.1262145, z: -0.4320094}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &227080111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 227080109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 951650614d9de4174a744b762c038d2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundEnemy: {fileID: 0}
+  homeBase: {fileID: 0}
 --- !u!1 &317585658
 GameObject:
   m_ObjectHideFlags: 0
@@ -864,7 +906,7 @@ GameObject:
   - component: {fileID: 1401978624}
   - component: {fileID: 1401978620}
   m_Layer: 0
-  m_Name: __Main Camera
+  m_Name: __Main Camera (Generator)
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -972,6 +1014,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   treeGroup: {fileID: 1735726291353816, guid: 69d5799c8c713459e9aefb3d0bc904dc, type: 2}
   grassObject: {fileID: 1316000046489014, guid: 299bff4060aeb4ea68aff833dee15c84,
+    type: 2}
+  homeBaseObject: {fileID: 1768265188987446, guid: 3b3cd6ffe0dbc49ff86d41d22802400c,
     type: 2}
   hexArray: []
 --- !u!20 &1401978621
